@@ -14,7 +14,7 @@ class Plan {
         this._Norm_Target = this._getNorm(this.TargetValue);
     }
     _setResourceIncreasingRate() {
-        var TotalRate = getTotalGreatSuccessRate();
+        var TotalRate = Input_getTotalGreatSuccessRate(true);
         this.ResourceIncreasingRate = 1 + (TotalRate) / 200;
     }
     _setList(length) {
@@ -95,6 +95,7 @@ class Plan {
         this.ShownTab.Qvalid[MissionsNumber[1]][11] += this._PlanValue;
         this.ShownTab.Qvalid[MissionsNumber[2]][11] += this._PlanValue;
         this.ShownTab.Qvalid[MissionsNumber[3]][11] += this._PlanValue;
+        //if (this.List[this.List.length - 1][0] === undefined) {
         if (!(0 in this.List[this.List.length - 1])) {
             this._push_FirstEmptyRow();
         }
@@ -185,14 +186,33 @@ class Plan {
     }
 
     _calculateValue() {
-        var CurrentValue = this._CurrentValue.slice();
-        CurrentValue[4] *= 500;
-        CurrentValue[5] *= 500;
-        CurrentValue[6] *= 500;
-        CurrentValue[7] *= 500;
-        for (var i = 0; i < 8; i++) {
-            if (this.TargetValue[i] == 0) CurrentValue[i] = 0;
-        }
+        var CurrentValue = [0, 0, 0, 0, 0, 0, 0, 0];
+        var TargetValue = this.TargetValue;
+        var _CurrentValue = this._CurrentValue;
+        if (TargetValue[0] !== 0)
+            CurrentValue[0] = _CurrentValue[0];
+        if (TargetValue[1] !== 0)
+            CurrentValue[1] = _CurrentValue[1];
+        if (TargetValue[2] !== 0)
+            CurrentValue[2] = _CurrentValue[2];
+        if (TargetValue[3] !== 0)
+            CurrentValue[3] = _CurrentValue[3];
+        if (TargetValue[4] !== 0)
+            CurrentValue[4] = _CurrentValue[4] * 500;
+        if (TargetValue[5] !== 0)
+            CurrentValue[5] = _CurrentValue[5] * 500;
+        if (TargetValue[6] !== 0)
+            CurrentValue[6] = _CurrentValue[6] * 500;
+        if (TargetValue[7] !== 0)
+            CurrentValue[7] = _CurrentValue[7] * 500;
+        // var CurrentValue = this._CurrentValue.slice();
+        // CurrentValue[4] *= 500;
+        // CurrentValue[5] *= 500;
+        // CurrentValue[6] *= 500;
+        // CurrentValue[7] *= 500;
+        // for (var i = 0; i < 8; i++) {
+        //     if (this.TargetValue[i] == 0) CurrentValue[i] = 0;
+        // }
         var Norm_Current = this._getNorm(CurrentValue);
         if (Norm_Current === 0)
             return 0;
@@ -217,56 +237,83 @@ class Plan {
         return Value2(this.TargetValue, this._CurrentValue);
     }
 
-    print(fineTuningExpanded) {
-        var Table = document.getElementById("Plan_Table");
+    print(fineTuningExpanded, SortBy = "Ranking") {
         if (!(0 in this.List[0])) {
+            var Table = document.getElementById("Plan_Table");
             Table.innerHTML = language.JS.NoPlan;
+            RESULT_PLAN = [];
             throw"--";
         }
-        var tab = getHTMLFineTuningTool(fineTuningExpanded);
-        tab += '<div class="table-responsive">';
-        tab += '<table class="table table-striped table-hover table-responsive text-nowrap">';//table-bordered
-        tab += (this.ShownTab.PrintPlanTableTitle() + '<tbody>');
+        var result_plan = [];
         for (var i = 0; i < this.List.length; i++) {
             if (!(0 in this.List[i])) break;
-            tab += "<tr>";
-            tab += this._PrintMissionsNumber(i);
-            tab += this._PrintResourceContract(i);
-            tab += this.ShownTab.PrintTableCustomize(this, i);
-            tab += '</tr>';
+            var one_plan = [];
+            one_plan.push(i);
+            var MissionsNumber = new Array(4);
+            for (var ii = 0; ii < 4; ii++) {
+                MissionsNumber[ii] = this.ShownTab.Qvalid[this.List[i][ii]][0];
+            }
+            MissionsNumber = MissionsNumber.sort(sortStringNumber);
+            for (var ii = 0; ii < 4; ii++) {
+                one_plan.push(MissionsNumber[ii]);
+            }
+            for (var ii = 0; ii < 4; ii++) {
+                one_plan.push(this.List[i][ii + 4] * this.ResourceIncreasingRate * this.CurrentValue_MAX[ii]);
+            }
+            for (var ii = 4; ii < 8; ii++) {
+                one_plan.push(this.List[i][ii + 4] * this.CurrentValue_MAX[ii]);
+            }
+            var customPrint = this.ShownTab.PrintTableCustomize(this, i);
+            for (var ii = 0; ii < customPrint.length; ii++) {
+                one_plan.push(customPrint[ii]);
+            }
+            result_plan.push(one_plan);
         }
-        tab += '</tbody>';
-        Table.innerHTML = tab;
-        $(function (){$("[data-toggle='tooltip']").tooltip();});
-    }
-    _PrintMissionsNumber(row) {
-        var tab = "";
-        var MissionsNumber = new Array(4);
-        for (var i = 0; i < 4; i++) {
-            MissionsNumber[i] = this.ShownTab.Qvalid[this.List[row][i]][0];
-        }
-        MissionsNumber = MissionsNumber.sort(sortStringNumber);
-        for (var i = 0; i < 4; i++) {
-            tab += "<td>" + MissionsNumber[i] + "</td>";
-        }
-        return tab;
-    }
-    _PrintResourceContract(row) {
-        var tab = "";
         var Minutes;
-        if (is_CalculateByHour()) {
+        if (is_CalculateByHour())
             Minutes = 60;
-        }
-        else {
+        else
             Minutes = this.ShownTab.TotalTime;
+
+        switch(SortBy) {
+            case "Ranking":
+                RESULT_PLAN_SORT_BY = "Ranking";
+                break;
+            case "Manp":
+                quick_sort_expand_descending(result_plan, 5);
+                RESULT_PLAN_SORT_BY = "Manp";
+                break;
+            case "Ammu":
+                quick_sort_expand_descending(result_plan, 6);
+                RESULT_PLAN_SORT_BY = "Ammu";
+                break;
+            case "Rati":
+                quick_sort_expand_descending(result_plan, 7);
+                RESULT_PLAN_SORT_BY = "Rati";
+                break;
+            case "Part":
+                quick_sort_expand_descending(result_plan, 8);
+                RESULT_PLAN_SORT_BY = "Part";
+                break;
+            case "TPro":
+                quick_sort_expand_descending(result_plan, 9);
+                RESULT_PLAN_SORT_BY = "TPro";
+                break;
+            case "Equi":
+                quick_sort_expand_descending(result_plan, 10);
+                RESULT_PLAN_SORT_BY = "Equi";
+                break;
+            case "QPro":
+                quick_sort_expand_descending(result_plan, 11);
+                RESULT_PLAN_SORT_BY = "QPro";
+                break;
+            case "QRes":
+                quick_sort_expand_descending(result_plan, 12);
+                RESULT_PLAN_SORT_BY = "QRes";
+                break;
         }
-        for (var i = 4; i < 8; i++) {
-            tab += "<td>" + (Math.round(this.List[row][i] * this.ResourceIncreasingRate * Minutes * 10 * this.CurrentValue_MAX[i - 4]) / 10) + "</td>";
-        }
-        for (var i = 8; i < 12; i++) {
-            tab += "<td>" + (Math.round(this.List[row][i] * Minutes * 100 * this.CurrentValue_MAX[i - 4]) / 100) + "</td>";
-        }
-        return tab;
+        RESULT_PLAN = result_plan;
+        print_result_plan(fineTuningExpanded, result_plan, Minutes);
     }
 }
 
@@ -275,4 +322,56 @@ function sortStringNumber(a, b) {
     aa = parseInt(a.replace(/[^0-9]/ig,""));
     bb = parseInt(b.replace(/[^0-9]/ig,""));
     return aa - bb;
+}
+
+function print_result_plan(fineTuningExpanded, result_plan, Minutes) {
+    var Table = document.getElementById("Plan_Table");
+    var tab = getHTMLFineTuningTool(fineTuningExpanded);
+    tab += '<div class="table-responsive">';
+    tab += '<table class="table table-striped table-hover table-responsive text-nowrap" style="margin-bottom: 0px; cursor: default;">';
+    var ShownTab = getShownTab();
+    tab += (ShownTab.PrintPlanTableTitle() + '<tbody>');
+    var is_selected;
+    var selectedMissions;
+    if (MISSION_TABLE_SELECT.length === 4) {
+        is_selected = true;
+        selectedMissions = MISSION_TABLE_SELECT.slice();
+        selectedMissions.sort(sortStringNumber);
+    }
+    else
+        is_selected = false;
+    for (var i = 0; i < result_plan.length; i++) {
+        if (is_selected) {
+            if (result_plan[i][1] === selectedMissions[0] && result_plan[i][2] === selectedMissions[1] && result_plan[i][3] === selectedMissions[2] && result_plan[i][4] === selectedMissions[3])
+                tab += "<tr id='print_result_plan_tr_" + i + "' class='success'>";
+            else
+                tab += "<tr id='print_result_plan_tr_" + i + "'>";
+        }
+        else
+            tab += "<tr id='print_result_plan_tr_" + i + "'>";
+        for (var ii = 0; ii < 4; ii++) {
+            tab += "<td style='text-align: center'>";
+            tab += "" + result_plan[i][ii + 1];
+            tab += "</td>";
+        }
+        for (var ii = 4; ii < 8; ii++) {
+            tab += "<td style='text-align: center'>";
+            tab += "" + Math.round(result_plan[i][ii + 1] * Minutes * 10) / 10;
+            tab += "</td>";
+        }
+        for (var ii = 8; ii < 12; ii++) {
+            tab += "<td style='text-align: center'>";
+            tab += "" + Math.round(result_plan[i][ii + 1] * Minutes * 100) / 100;
+            tab += "</td>";
+        }
+        var one_plan_length = result_plan[0].length;
+        for (var ii = 13; ii < one_plan_length; ii++) {
+            tab += "<td style='text-align: center'>";
+            tab += result_plan[i][ii];
+            tab += "</td>";
+        }
+        tab += "</tr>";
+    }
+    tab += '</tbody>';
+    Table.innerHTML = tab;
 }
