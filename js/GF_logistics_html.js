@@ -29,13 +29,16 @@ function setLanguage() {
             case 'zh-TW':
             case 'zh-MO':
                 language = languages["zh-hk"];
+		storageSetItem("lang", "zh-hk");
                 break;
             default:
                 language = languages["zh-cn"];
+		storageSetItem("lang", "zh-cn");
         }
     }
     else {
         language = languages["zh-cn"];
+	storageSetItem("lang", "zh-cn");
     }
 }
 
