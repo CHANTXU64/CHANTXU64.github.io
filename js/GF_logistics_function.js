@@ -29,3 +29,36 @@ function is_NonPositiveNumberOrInfinity(x) {
     else
         return false;
 }
+
+function getPositiveValueFromHTML(JQ_elem, NeedCorrection = false) {
+    var Value;
+    if (is_NonPositiveNumberOrInfinity(JQ_elem.val()))
+        Value = 0;
+    else
+        Value = parseFloat(JQ_elem.val());
+    if (NeedCorrection)
+        JQ_elem.val(Value);
+    return Value;
+}
+
+Array.prototype.remove = function(val) {
+    var i = 0;
+    while (i < this.length) {
+        if (this[i] === val)
+            this.splice(i, 1);
+        else
+            i++;
+    }
+}
+
+Array.prototype.remove_First = function(val) {
+    var i = 0;
+    while (i < this.length) {
+        if (this[i] === val) {
+            this.splice(i, 1);
+            break;
+        }
+        else
+            i++;
+    }
+}

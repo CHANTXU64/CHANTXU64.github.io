@@ -2,10 +2,9 @@ var RESULT_PLAN = [];
 var RESULT_PLAN_SORT_BY = "";
 var TABLE_CALCULATE_TOTAL_TIME;
 
-$(function() {
-$('#start_sorting').on('click', function() {
+function start_sorting_main() {
     console.time('total');
-    start_sorting_html();
+    HTML_DisableInput();
     var ShownTab = getShownTab();
     ShownTab.setTime();
     var Q_Valid_length = ShownTab.setValidQAndReturnLengthAndSetCurrentMax();
@@ -81,8 +80,7 @@ $('#start_sorting').on('click', function() {
     plan.print(false);
     console.timeEnd();
     console.timeEnd('total');
-})
-})
+}
 
 function getShownTab() {
     var ShownTab;

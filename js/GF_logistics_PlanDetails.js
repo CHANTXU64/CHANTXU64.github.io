@@ -10,7 +10,7 @@ function PrintPlanDetails() {
     }
     document.getElementById("PlanDetails_ShownTab").innerHTML = language.JS.PlanDetails_calculateMethod + ': ' + ShownTab_Name;
     var ShownTab = getShownTab();
-    ShownTab.setTime_NotCorrected();
+    ShownTab.setTime(false);
     var TotalMinutes = ShownTab.TotalTime;
     document.getElementById("PlanDetails_TotalTime").innerHTML = language.JS.total_time + ": " + TimeFormat(TotalMinutes);
     var TotalGreatSuccessRate = Input_getTotalGreatSuccessRate();
@@ -144,7 +144,7 @@ function print_chart(selectedMissions_table, TotalMinutes) {
         },
         grid: {
             left: 35,
-            right: 15,
+            right: 20,
             top: 5,
             bottom: 20,
             height: 'auto'
@@ -176,7 +176,8 @@ function print_chart(selectedMissions_table, TotalMinutes) {
             },
             data: data
         }],
-        animation:false
+        animation:false,
+        backgroundColor: "#FFFFFF"
     };
 
     Chart.setOption(option);

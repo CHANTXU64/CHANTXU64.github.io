@@ -5,7 +5,7 @@ class Plan {
         this.ShownTab = ShownTab;
         this.CurrentValue_MAX = ShownTab.CurrentValue_MAX;
         if (Target_Value === undefined) {
-            this.TargetValue_html = this._getLegalityTargetValue();
+            this.TargetValue_html = Input_getTarget_Correct(); 
             this.TargetValue = this._CorrectTargetValue();
         }
         else {
@@ -24,30 +24,20 @@ class Plan {
             this.List[i].Value = 0;//该方案价值
         }
     }
-    _getLegalityTargetValue() {
-        var HTMLTargetArr = [$("#MT"), $("#AT"), $("#RT"), $("#PT"), $("#TT"), $("#ET"), $("#QPT"), $("#QRT")];
-        var TargetArr = getPositiveValueFromHTML(HTMLTargetArr);
-        if (TargetArr.toString() == "0,0,0,0,0,0,0,0") {
-            alert(language.JS.TargetValue0_alert);
-            clear_sorting_html();
-            throw"--";
-        }
-        return TargetArr;
-    }
     _CorrectTargetValue() {
         var ResourceValue = this._CorrectResourceValue();
         var ContractValue = this._CorrectContractValue();
         var TargetValue = ResourceValue.concat(ContractValue);
         if (TargetValue.toString() == "0,0,0,0,0,0,0,0") {
             alert(language.JS.TargetValue0_alert);
-            clear_sorting_html();
+            HTML_AllowInput();
             throw"--";
         }
         return TargetValue;
     }
     _CorrectResourceValue() {
         var ResourceValue = this.TargetValue_html.slice(0, 4);
-        var Resource_CalibrationValue = 100 - parseInt($('#ContractWeight').val());
+        var Resource_CalibrationValue = 100 - Input_getContractWeight();
         if (this._ValuesNotAll0(ResourceValue)) {
             this._CorrectValue(ResourceValue, Resource_CalibrationValue);
         }
@@ -55,7 +45,7 @@ class Plan {
     }
     _CorrectContractValue() {
         var ContractValue = this.TargetValue_html.slice(4, 8);
-        var Contract_CalibrationValue = parseInt($('#ContractWeight').val());
+        var Contract_CalibrationValue = Input_getContractWeight();
         if (this._ValuesNotAll0(ContractValue)) {
             this._CorrectValue(ContractValue, Contract_CalibrationValue);
         }
@@ -205,14 +195,6 @@ class Plan {
             CurrentValue[6] = _CurrentValue[6] * 500;
         if (TargetValue[7] !== 0)
             CurrentValue[7] = _CurrentValue[7] * 500;
-        // var CurrentValue = this._CurrentValue.slice();
-        // CurrentValue[4] *= 500;
-        // CurrentValue[5] *= 500;
-        // CurrentValue[6] *= 500;
-        // CurrentValue[7] *= 500;
-        // for (var i = 0; i < 8; i++) {
-        //     if (this.TargetValue[i] == 0) CurrentValue[i] = 0;
-        // }
         var Norm_Current = this._getNorm(CurrentValue);
         if (Norm_Current === 0)
             return 0;
@@ -374,4 +356,5 @@ function print_result_plan(fineTuningExpanded, result_plan, Minutes) {
     }
     tab += '</tbody>';
     Table.innerHTML = tab;
+    document.getElementById("start_sorting_html").style.display = "none";
 }

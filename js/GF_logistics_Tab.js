@@ -5,8 +5,6 @@ class Tab {
 
     setTime() {}
 
-    setTime_NotCorrected() {}
-
     setValidQAndReturnLengthAndSetCurrentMax() {}
     _setCurrentMax() {
         var CurrentValueMax = new Array(8);
@@ -63,10 +61,16 @@ class Tab {
     PrintTableCustomize(plan, row) {
         return "";
     }
+
+    Saved_Custom() {
+        return [];
+    }
+
+    ApplySaved_Custom(Saved_Custom) {}
 };
 function _setUnableLogistic() {
     var UnableMap;
-    switch (parseFloat($("#MapLimit").val())) {
+    switch (Input_getSelectChapter()) {
         case 6:
             UnableMap = ["7-1","7-2","7-3","7-4","8-1","8-2","8-3","8-4","9-1","9-2","9-3","9-4","10-1","10-2","10-3","10-4","11-1","11-2","11-3","11-4","12-1","12-2","12-3","12-4"]; break;
         case 7:
@@ -92,50 +96,16 @@ function _setUnableLogistic() {
 }
 
 class Tab_Anytime extends Tab {
-    setTime() {
-        this.TotalTime = this._checkDataLegalityAndCorrect_TotalTime();
-        this.MinimumIntervalTime = this._checkDataLegalityAndCorrect_MinimumIntervalTime();
-    }
-    _checkDataLegalityAndCorrect_TotalTime() {
-        var Hours = getPositiveValueFromHTML($("#Time_Anytime_hours"));
-        var Minutes = getPositiveValueFromHTML($("#Time_Anytime_minutes"));
-        var total_time = Hours * 60 + Minutes;
-        if (total_time == 0) {
-            alert(language.JS.tab_Anytime_alert1);
-            clear_sorting_html();
-            throw"--";
+    setTime(NeedCorrection = true) {
+        this.TotalTime = Input_getAnytimeTotalTime(NeedCorrection);
+        if (NeedCorrection) {
+            if (this.TotalTime === 0) {
+                alert(language.JS.tab_Anytime_alert1);
+                HTML_AllowInput();
+                throw"--";
+            }
         }
-        return total_time;
-    }
-    _checkDataLegalityAndCorrect_MinimumIntervalTime() {
-        var Minutes = getPositiveValueFromHTML($('#Tab_Anytime_MinimumIntervalTime_minutes'));
-        var MinimumIntervalTime = Minutes;
-        return MinimumIntervalTime;
-    }
-
-    setTime_NotCorrected() {
-        this.TotalTime = this._checkDataLegality_TotalTime();
-        this.MinimumIntervalTime = this._checkDataLegality_MinimumIntervalTime();
-    }
-    _checkDataLegality_TotalTime() {
-        var Hours, Minutes;
-        if (is_NonPositiveNumberOrInfinity($("#Time_Anytime_hours").val()))
-            Hours = 0;
-        else
-            Hours = parseFloat($("#Time_Anytime_hours").val());
-        if (is_NonPositiveNumberOrInfinity($("#Time_Anytime_minutes").val()))
-            Minutes = 0;
-        else
-            Minutes = parseFloat($("#Time_Anytime_minutes").val());
-        return Hours * 60 + Minutes;
-    }
-    _checkDataLegality_MinimumIntervalTime() {
-        var Minutes;
-        if (is_NonPositiveNumberOrInfinity($('#Tab_Anytime_MinimumIntervalTime_minutes').val()))
-            Minutes = 0;
-        else
-            Minutes = parseFloat($('#Tab_Anytime_MinimumIntervalTime_minutes').val());
-        return Minutes;
+        this.MinimumIntervalTime = Input_getAnytimeMinimumIntervalTime(NeedCorrection);
     }
 
     setValidQAndReturnLengthAndSetCurrentMax() {
@@ -262,6 +232,23 @@ class Tab_Anytime extends Tab {
         tab.push((Math.round(Math.max(this.Qvalid[Number[0]][9],this.Qvalid[Number[1]][9],this.Qvalid[Number[2]][9],this.Qvalid[Number[3]][9]) * 100 / 60) / 100) + "h");
         return tab;
     }
+
+    Saved_Custom() {
+        var Saved_Custom = [];
+        var TotalTime = Input_getAnytimeTotalTime();
+        Saved_Custom.push(TotalTime);
+        var MinimumIntervalTime = Input_getAnytimeMinimumIntervalTime();
+        Saved_Custom.push(MinimumIntervalTime);
+        return Saved_Custom;
+    }
+
+    ApplySaved_Custom(Saved_Custom) {
+        var TotalTime = Saved_Custom[0];
+        var MinimumIntervalTime = Saved_Custom[1];
+        Input_setAnytimeTotalTime(TotalTime);
+        Input_setAnytimeMinimumIntervalTime(MinimumIntervalTime);
+        storageSetItem("TabAnytimeCustom", Saved_Custom);
+    }
 };
 
 class Tab_Timetable extends Tab {
@@ -271,22 +258,17 @@ class Tab_Timetable extends Tab {
         this.TimeList = [];
     }
 
-    setTime() {
-        this.TimeList = Tab_Timetable_TimeList_html.slice().sort(sortNumber);
+    setTime(NeedCorrection = true) {
+        this.TimeList = Tab_Timetable_TIMELIST.slice().sort(sortNumber);
         this.TimeList.unshift(0);
-        this.TotalTime = Tab_Timetable_getMaxTime();
-        if (this.TotalTime == 0) {
-            alert(language.JS.tab_Timetable_alert4);
-            clear_sorting_html();
-            throw"--";
+        this.TotalTime = Input_getTimetableTotalTime(NeedCorrection);
+        if (NeedCorrection) {
+            if (this.TotalTime == 0) {
+                alert(language.JS.tab_Timetable_alert4);
+                HTML_AllowInput();
+                throw"--";
+            }
         }
-        this.TimeList.push(this.TotalTime);
-    }
-
-    setTime_NotCorrected() {
-        this.TimeList = Tab_Timetable_TimeList_html.slice().sort(sortNumber);
-        this.TimeList.unshift(0);
-        this.TotalTime = Tab_Timetable_getMaxTime();
         this.TimeList.push(this.TotalTime);
     }
 
@@ -329,6 +311,23 @@ class Tab_Timetable extends Tab {
             title = this._title + '<th style="text-align: center;width:10%;" id="resultPlan_Manp">'+language.JS.Manp+'</th><th style="text-align: center;width:10%;" id="resultPlan_Ammu">'+language.JS.Ammu+'</th><th style="text-align: center;width:10%;" id="resultPlan_Rati">'+language.JS.Rati+'</th><th style="text-align: center;width:10%;" id="resultPlan_Part">'+language.JS.Part+'</th><th style="text-align: center;width:10%;" id="resultPlan_TPro">'+language.JS.TPro+'</th><th style="text-align: center;width:10%;" id="resultPlan_Equi">'+language.JS.Equi+'</th><th style="text-align: center;width:10%;" id="resultPlan_QPro">'+language.JS.QPro+'</th><th style="text-align: center;width:10%;" id="resultPlan_QRes">'+language.JS.QRes+'</th>' + this._titleEnd;
         }
         return title;
+    }
+
+    Saved_Custom() {
+        var Saved_Custom = [];
+        var TotalTime = Input_getTimetableTotalTime();
+        Saved_Custom.push(TotalTime);
+        var Timetable = Tab_Timetable_TIMELIST.slice();
+        Saved_Custom.push(Timetable);
+        return Saved_Custom;
+    }
+
+    ApplySaved_Custom(Saved_Custom) {
+        var TotalTime = Saved_Custom[0];
+        Input_setTimetableTotalTime(TotalTime);
+        var Timetable = Saved_Custom[1];
+        Input_setTimetableTimetable(Timetable);
+        storageSetItem("TabTimetableCustom", Saved_Custom);
     }
 }
 function sortNumber(a, b) {
