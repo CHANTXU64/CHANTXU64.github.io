@@ -1,15 +1,16 @@
 var MISSION_TABLE = [];
 var MISSION_TABLE_SELECT = [];
 
-function PrintMissionTable() {
-    MISSION_TABLE = _getMissionTableByShownTab();
+function PrintMissionTable(NeedCalculate_MISSION_TABLE = true) {
+    if (NeedCalculate_MISSION_TABLE)
+        MISSION_TABLE = _getMissionTableByShownTab();
     var MissionTable = MISSION_TABLE;
     var time_calculate = TABLE_CALCULATE_TOTAL_TIME;
     var tab = '';
     var MissionTable_length = MissionTable.length;
     var selectMissions = MISSION_TABLE_SELECT.slice();
     for (var i = 0; i < MissionTable_length; i++) {
-        tab += '<tr id="MissionTable_' + i + '"';
+        tab += '<tr id="MissionTable_' + i + '" tabindex="0"';
         for (var ii = 0; ii < selectMissions.length; ii++) {
             if (selectMissions[ii] === MissionTable[i][0]) {
                 selectMissions.splice(ii, 1);
