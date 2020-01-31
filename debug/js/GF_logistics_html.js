@@ -16,7 +16,7 @@ window.onload = function () {
         disableTargetButton();
     if (document.getElementById("wrapper").getBoundingClientRect().width <= 1600)
         document.getElementById("page-wrapper").style.marginLeft = "0";
-    IOSSafari();
+    IOS();
 };
 
 $(window).resize(function () {
@@ -122,23 +122,20 @@ function MobileOptimization() {
     }
 }
 
-var isIOSSafari = false;
-function IOSSafari() {
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf('applewebkit') > -1 && ua.indexOf('mobile') > -1 && ua.indexOf('safari') > -1 &&
-            ua.indexOf('linux') === -1 && ua.indexOf('android') === -1 && ua.indexOf('chrome') === -1 &&
-            ua.indexOf('ios') === -1 && ua.indexOf('browser') === -1) {
-        isIOSSafari = true;
-    }
+var isIOS = false;
+function IOS() {
+    var userAgentInfo = navigator.userAgent;//.toLowerCase();
+    if (userAgentInfo.indexOf("iPhone") !== -1 || userAgentInfo.indexOf("iPad") !== -1 || userAgentInfo.indexOf("iPod") !== -1)
+        isIOS = true;
 }
 
 function selectThis(this_elem) {
-    if (isIOSSafari) {
+    if (isIOS) {
         // var type = this_elem.type;
         // this_elem.type = "text";
         // this_elem.setSelectionRange(0, -1);
         // this_elem.type = type;
-        setTimeout(function() {this_elem.select();}, 0);
+        setTimeout(function() {this_elem.select();}, 10);
     }
     else
         this_elem.select();
