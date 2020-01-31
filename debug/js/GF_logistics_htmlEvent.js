@@ -630,6 +630,9 @@ $(function() {
 
 //Config
 $(function() {
+    // $("#Config_importInput").on("focus click touchstart", function(e) {
+    //     selectThis(this)
+    // });
     $("#Config_export").on("click", function() {Config_export();});
     $("#Config_importButton").on("click", function() {
         const input = $("#Config_importInput").val();
