@@ -124,7 +124,7 @@
                                             <div class="form-group input-group">
                                                 <input type="number" min="0" max="72"
                                                     class="form-control" id="Time_Anytime_hours" value=16
-                                                    onclick="this.select()" autocomplete="off">
+                                                    onclick="this.select()" onmouseup="this.preventDefault()" autocomplete="off">
                                                 <label for="Time_Anytime_hours" class="input-group-addon"
                                                     style="border-left-width: 0" id="tab_Anytime_hour"></label>
                                                 <input type="number" min="0" max="60" class="form-control"
@@ -528,12 +528,12 @@
                                                                 <label for="PlanDetails_InputExecutionTimes" id="PlanDetails_InputExecutionTimes_label" style="font-size: 13px; border-radius: 0; border-left-width: 0;border-bottom-width: 0;"
                                                                     class="input-group-addon"></label>
                                                                 <input type="number" min="1" max="999" step="1" id="PlanDetails_InputExecutionTimes"
-                                                                    class="form-control" onclick="this.select()" value="1" style="height: 28px;padding:3px 6px 3px 6px; border-radius: 0; border-right-width: 0;border-bottom-width: 0;"
+                                                                    class="form-control" onclick="this.select()" value="1" style="height: 28px;padding:3px 6px 3px 6px; border-radius: 0;border-left-width: 0; border-right-width: 0;border-bottom-width: 0;"
                                                                     autocomplete="off">
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                </tbody style="border-top-width: 1px;">
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
