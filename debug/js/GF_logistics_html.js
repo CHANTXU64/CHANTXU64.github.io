@@ -16,6 +16,7 @@ window.onload = function () {
         disableTargetButton();
     if (document.getElementById("wrapper").getBoundingClientRect().width <= 1600)
         document.getElementById("page-wrapper").style.marginLeft = "0";
+    IOSSafari();
 };
 
 $(window).resize(function () {
@@ -121,8 +122,19 @@ function MobileOptimization() {
     }
 }
 
-//注释
-$(function (){$("[data-toggle='tooltip']").tooltip();});
+var isIOSSafari = false;
+function IOSSafari() {
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('applewebkit') > -1 && ua.indexOf('mobile') > -1 && ua.indexOf('safari') > -1 &&
+            ua.indexOf('linux') === -1 && ua.indexOf('android') === -1 && ua.indexOf('chrome') === -1 &&
+            ua.indexOf('ios') === -1 && ua.indexOf('browser') === -1) {
+        isIOSSafari = true;
+    }
+}
+
+// function selectThis(this_elem) {
+//     if ()
+// }
 
 //标签页
 let HTML_TAB;
