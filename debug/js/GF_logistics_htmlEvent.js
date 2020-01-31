@@ -434,7 +434,8 @@ $(function() {
         const name_elem_id = "#SavedTable_name_" + Row;
         $(name_elem_id).attr("readOnly", false);
         $(name_elem_id).focus();
-        $(name_elem_id).select();
+        var elem = document.getElementById(name_elem_id.slice(1, name_elem_id.length));
+        selectThis(elem);
     });
     $("#Saved_Body").on("click", "button[id^=SavedTable_up_]", function() {Saved_upThisRow(parseInt(stringSliceFromLast_(this.id)));});
     $("#Saved_Body").on("click", "button[id^=SavedTable_down_]", function() {Saved_downThisRow(parseInt(stringSliceFromLast_(this.id)));});

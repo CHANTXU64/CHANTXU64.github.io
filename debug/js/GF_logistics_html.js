@@ -132,9 +132,18 @@ function IOSSafari() {
     }
 }
 
-// function selectThis(this_elem) {
-//     if ()
-// }
+function selectThis(this_elem) {
+    if (isIOSSafari) {
+        var type = this_elem.type;
+        this_elem.type = "text";
+        this_elem.setSelectionRange(0, -1);
+        this_elem.type = type;
+        alert("Safari");
+        $("#start_sorting").focus();
+    }
+    else
+        this_elem.select();
+}
 
 //标签页
 let HTML_TAB;
