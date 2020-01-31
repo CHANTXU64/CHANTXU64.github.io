@@ -135,7 +135,8 @@ function selectThis(this_elem) {
         // this_elem.type = "text";
         // this_elem.setSelectionRange(0, -1);
         // this_elem.type = type;
-        setTimeout(function() {this_elem.select();}, 10);
+        // setTimeout(function() {this_elem.select();}, 10);
+        this_elem.select();
     }
     else
         this_elem.select();

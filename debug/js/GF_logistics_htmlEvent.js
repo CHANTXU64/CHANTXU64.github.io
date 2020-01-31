@@ -714,3 +714,15 @@ $(function() {
             $("#calcTargetValueTool_InputExecutionTimes").focus();
     });
 });
+
+$("#Time_Anytime_hours").mouseup(function(e) {
+    var preventEvent = $this.data("preventMouseUp");
+
+    //only prevent default if the flag is TRUE
+    if (preventEvent) {
+        e.preventDefault();
+    }
+
+    //reset flag so MOUSEUP event deselect the text
+    $this.data("preventMouseUp", false);
+});
