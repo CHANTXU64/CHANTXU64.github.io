@@ -61,7 +61,7 @@ class ResultsPlan {
 
             //点击排序后或微调后恢复位置
             if (table_scrollLeft != 0)
-                table_elem.scrollLeft = table_scrollLeft;
+                document.getElementById("result_plan_table").scrollLeft = table_scrollLeft;
 
             //保存此次打印用的方案与排序方式
             this._lastResultsPlan = sorted_result_plan;
