@@ -2,12 +2,12 @@
 const VERSION = "1.0.0-alpha";
 
 /**
- * 用于判断浏览器是否能使用local storage
+ * 用于判断浏览器是否能使用storage
  * 
  * 在window.onload初始化, 之后将不再改变
  * @type {boolean}
  */
-let CAN_LOCALSTORAGE_WORK;
+let CAN_STORAGE_WORK;
 
 /**
  * localstorage存储使用的key
@@ -20,9 +20,9 @@ const LOCAL_STORAGE_KEY = "GF_Logistics_v" + VERSION.slice(0, VERSION.indexOf(".
  * 并且在HTML页面上显示信息
  */
 function checkLocalStorageWork() {
-    CAN_LOCALSTORAGE_WORK = _localStorageWorks();
-    if (CAN_LOCALSTORAGE_WORK !== true) {
-        CAN_LOCALSTORAGE_WORK = false;
+    CAN_STORAGE_WORK = _localStorageWorks() && _sessionStorageWorks();
+    if (CAN_STORAGE_WORK !== true) {
+        CAN_STORAGE_WORK = false;
         document.getElementById("localstorageWarning").style.display = "none";
         document.getElementById("neverShowAgain_description").style.display = "none";
     }
@@ -42,7 +42,22 @@ function _localStorageWorks() {
         let result = localStorage.getItem("test_PzrJwG" + Random1) == "Rx3IyFdmJMji0Alo" + Random2;
         localStorage.removeItem("test_PzrJwG" + Random1);
         return result;
-    } catch (ex) {}
+    }catch (ex) {
+        return false;
+    }
+}
+/**判断浏览器是否能使用session storage */
+function _sessionStorageWorks() {
+    try {
+        let Random1 = Math.random();
+        let Random2 = Math.random();
+        sessionStorage.setItem("test_QQ15L2X" + Random1, "MVQYqpFNO8WU6Flc" + Random2);
+        let result = sessionStorage.getItem("test_QQ15L2X" + Random1) == "MVQYqpFNO8WU6Flc" + Random2;
+        sessionStorage.removeItem("test_QQ15L2X" + Random1);
+        return result;
+    } catch (ex) {
+        return false;
+    }
 }
 
 function removeStorageAndWarnDueToFailedWindowLoad() {
@@ -60,7 +75,7 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     data.language = navigator.language;
     data.localStorage_v0 = storage_v0;
     data.localStorage_v1 = storage_v1;
-    data.console = CONSOLE;
+    data.console = sessionStorage.getItem("GF_Logistics_console");
 
     let warn = "<div class=\"alert alert-danger\" style=\"color:#000000; cursor: default;\">";
     warn += language_zh_CN.JS.FailedWindowLoadWarn + "<br>";
@@ -82,7 +97,7 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
  * 尝试从以前版本的localstorage转换过来
  */
 function updateLocalStorage() {
-    if (!CAN_LOCALSTORAGE_WORK)
+    if (!CAN_STORAGE_WORK)
         return ;
     let LS_data = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (LS_data === null) {
@@ -98,8 +113,14 @@ function _updateLSFrom_v_0_x_x_To_v_1_x_x() {
     let LS_data = localStorage.getItem(LS_Key);
     if (LS_data === null)
         return ;
-    LS_data = JSON.parse(LS_data);
-    
+    try {
+        let data = JSON.parse(LS_data);
+        LS_data = data;
+    } catch (ex) {
+        console.error("v0storage, storage: " + LS_data);
+        LS_data = {};
+    }
+
     let newData = {};
     newData.Lang = LS_data.lang;
     newData.Description_Display = LS_data.Description_Display;
@@ -153,9 +174,15 @@ function _savedData_v_0_x_x_To_v_1_x_x(v_0_x_x_savedData) {
  * @param {*} Value - 存储数据
  */
 function storageSetItem(Key, Value) {
-    if (CAN_LOCALSTORAGE_WORK) {
+    if (CAN_STORAGE_WORK) {
         let storageValue = localStorage.getItem(LOCAL_STORAGE_KEY);
-        storageValue = JSON.parse(storageValue);
+        try {
+            let Value = JSON.parse(storageValue);
+            storageValue = Value;
+        } catch (ex) {
+            console.error("storageGetItem, storage: " + storageValue);
+            storageValue = {};
+        }
         if (storageValue === null)
             storageValue = {};
         storageValue[Key] = Value;
@@ -171,12 +198,18 @@ function storageSetItem(Key, Value) {
  * @returns {*} 存储数据, 若无数据则返回"noStorage"
  */
 function storageGetItem(Key) {
-    if (CAN_LOCALSTORAGE_WORK) {
+    if (CAN_STORAGE_WORK) {
         let storageValue = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (storageValue === null)
             return "noStorage";
         else {
-            storageValue = JSON.parse(storageValue);
+            try {
+                let Value = JSON.parse(storageValue);
+                storageValue = Value;
+            } catch (ex) {
+                console.error("storageGetItem, storage: " + storageValue);
+                storageValue = {};
+            }
             let Value = storageValue[Key];
             if (Value === undefined)
                 return "noStorage";

@@ -186,55 +186,48 @@ if (console) {
         error: console.error,
     };
     console.log = function (data) {
-        CONSOLE += "log: " + JSON.stringify(data) + "\t";
+        let date = new Date;
+        let CONSOLE_ = date.toLocaleString() + " log: " + JSON.stringify(data) + "\n";
+        CONSOLE = CONSOLE + CONSOLE_;
+        CONSOLE = limitCONSOLELength(CONSOLE);
         try {
-            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
-            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+            CONSOLE_ = sessionStorage.getItem("GF_Logistics_console") + CONSOLE_;
+            CONSOLE_ = limitCONSOLELength(CONSOLE_);
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE_);
         } catch (ex) {}
-        ConsoleLimit();
         _console.log.apply(this, Array.prototype.slice.call(arguments, 0));
     };
-    console.info = function (data) {
-        CONSOLE += "info: " + JSON.stringify(data) + "\t";
-        try {
-            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
-            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
-        } catch (ex) {}
-        ConsoleLimit();
-        _console.info.apply(this, Array.prototype.slice.call(arguments, 0));
-    };
-    console.debug = function (data) {
-        CONSOLE += "debug: " + JSON.stringify(data) + "\t";
-        try {
-            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
-            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
-        } catch (ex) {}
-        ConsoleLimit();
-        _console.debug.apply(this, Array.prototype.slice.call(arguments, 0));
-    };
     console.warn = function (a) {
-        CONSOLE += "warn: " + JSON.stringify(a) + "\t";
+        let date = new Date;
+        let CONSOLE_ = date.toLocaleString() + " warn: " + JSON.stringify(data) + "\n";
+        CONSOLE = CONSOLE + CONSOLE_;
+        CONSOLE = limitCONSOLELength(CONSOLE);
         try {
-            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
-            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+            CONSOLE_ = sessionStorage.getItem("GF_Logistics_console") + CONSOLE_;
+            CONSOLE_ = limitCONSOLELength(CONSOLE_);
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE_);
         } catch (ex) {}
-        ConsoleLimit();
         _console.warn.apply(this, Array.prototype.slice.call(arguments, 0));
     };
     console.error = function (a) {
-        CONSOLE += "error: " + JSON.stringify(a) + "\t";
+        let date = new Date;
+        let CONSOLE_ = date.toLocaleString() + " error: " + JSON.stringify(data) + "\n";
+        CONSOLE = CONSOLE + CONSOLE_;
+        CONSOLE = limitCONSOLELength(CONSOLE);
         try {
-            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
-            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+            CONSOLE_ = sessionStorage.getItem("GF_Logistics_console") + CONSOLE_;
+            CONSOLE_ = limitCONSOLELength(CONSOLE_);
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE_);
         } catch (ex) {}
-        ConsoleLimit();
         _console.error.apply(this, Array.prototype.slice.call(arguments, 0));
     };
 }
 /**限制CONSOLE长度 */
-function ConsoleLimit() {
-    let console_length = CONSOLE.length;
-    let limit = 200000;
-    if (console_length > limit)
-        CONSOLE = CONSOLE.slice(console_length - limit);
+function limitCONSOLELength(console_string) {
+    let maxLength = 200000;
+    let length = console_string.length;
+    if (length > maxLength)
+        return console_string.slice(length - maxLength);
+    else
+        return console_string;
 }
