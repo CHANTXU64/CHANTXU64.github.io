@@ -28,9 +28,9 @@ function checkLocalStorageWork() {
     }
     else {
         document.getElementById("localstorageDoesNotWork").style.display = "none";
-        if (localStorage.getItem("GF_Logistics_windowOnloadSuccess") === "false")
+        if (localStorage.getItem("GF_Logistics_windowOnload") === "failed")
             removeStorageAndWarnDueToFailedWindowLoad();
-        localStorage.setItem("GF_Logistics_windowOnloadSuccess", "false");
+        localStorage.setItem("GF_Logistics_windowOnload", "failed");
     }
 }
 /**判断浏览器是否能使用local storage */
@@ -68,7 +68,7 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     warn += "</code></div>";
     $("#description").before(warn);
 
-    localStorage.removeItem("GF_Logistics_windowOnloadSuccess");
+    localStorage.removeItem("GF_Logistics_windowOnload");
     localStorage.removeItem(LOCAL_STORAGE_KEY);
 }
 
