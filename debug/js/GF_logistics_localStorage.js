@@ -30,7 +30,7 @@ function checkLocalStorageWork() {
         document.getElementById("localstorageDoesNotWork").style.display = "none";
         if (localStorage.getItem("GF_Logistics_windowOnloadSuccess") === "false")
             removeStorageAndWarnDueToFailedWindowLoad();
-        localStorage.setItem("GF_Logistics_windowOnloadSuccess", false);
+        localStorage.setItem("GF_Logistics_windowOnloadSuccess", "false");
     }
 }
 /**判断浏览器是否能使用local storage */
