@@ -60,6 +60,7 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     data.language = navigator.language;
     data.localStorage_v0 = storage_v0;
     data.localStorage_v1 = storage_v1;
+    data.console = CONSOLE;
 
     let warn = "<div class=\"alert alert-danger\" style=\"color:#000000; cursor: default;\">";
     warn += language_zh_CN.JS.FailedWindowLoadWarn + "<br>";
