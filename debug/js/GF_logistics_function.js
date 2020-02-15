@@ -186,33 +186,55 @@ if (console) {
         error: console.error,
     };
     console.log = function (data) {
-        CONSOLE += "log: ";
-        CONSOLE += JSON.stringify(data);
-        CONSOLE += "\t";
+        CONSOLE += "log: " + JSON.stringify(data) + "\t";
+        try {
+            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+        } catch (ex) {}
+        ConsoleLimit();
         _console.log.apply(this, Array.prototype.slice.call(arguments, 0));
     };
     console.info = function (data) {
-        CONSOLE += "info: ";
-        CONSOLE += JSON.stringify(data);
-        CONSOLE += "\t";
+        CONSOLE += "info: " + JSON.stringify(data) + "\t";
+        try {
+            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+        } catch (ex) {}
+        ConsoleLimit();
         _console.info.apply(this, Array.prototype.slice.call(arguments, 0));
     };
     console.debug = function (data) {
-        CONSOLE += "debug: ";
-        CONSOLE += JSON.stringify(data);
-        CONSOLE += "\t";
+        CONSOLE += "debug: " + JSON.stringify(data) + "\t";
+        try {
+            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+        } catch (ex) {}
+        ConsoleLimit();
         _console.debug.apply(this, Array.prototype.slice.call(arguments, 0));
     };
     console.warn = function (a) {
-        CONSOLE += "warn: ";
-        CONSOLE += JSON.stringify(a);
-        CONSOLE += "\t";
+        CONSOLE += "warn: " + JSON.stringify(a) + "\t";
+        try {
+            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+        } catch (ex) {}
+        ConsoleLimit();
         _console.warn.apply(this, Array.prototype.slice.call(arguments, 0));
     };
     console.error = function (a) {
-        CONSOLE += "error: ";
-        CONSOLE += JSON.stringify(a);
-        CONSOLE += "\t";
+        CONSOLE += "error: " + JSON.stringify(a) + "\t";
+        try {
+            CONSOLE += sessionStorage.getItem("GF_Logistics_console");
+            sessionStorage.setItem("GF_Logistics_console", CONSOLE);
+        } catch (ex) {}
+        ConsoleLimit();
         _console.error.apply(this, Array.prototype.slice.call(arguments, 0));
     };
+}
+/**限制CONSOLE长度 */
+function ConsoleLimit() {
+    let console_length = CONSOLE.length;
+    let limit = 200000;
+    if (console_length > limit)
+        CONSOLE = CONSOLE.slice(console_length - limit);
 }
