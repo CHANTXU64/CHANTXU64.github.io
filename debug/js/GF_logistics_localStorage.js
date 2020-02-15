@@ -46,7 +46,8 @@ function _localStorageWorks() {
 }
 
 function removeStorageAndWarnDueToFailedWindowLoad() {
-    let storage = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let storage_v1 = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let storage_v0 = localStorage.getItem("GF_Logistics");
     let data = {};
     data.userAgent = navigator.userAgent;
     data.appName = navigator.appName;
@@ -57,7 +58,8 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     data.cookieEnabled = navigator.cookieEnabled;
     data.onLine = navigator.onLine;
     data.language = navigator.language;
-    data.localStorage = storage;
+    data.localStorage_v0 = storage_v0;
+    data.localStorage_v1 = storage_v1;
 
     let warn = "<div class=\"alert alert-danger\" style=\"color:#000000; cursor: default;\">";
     warn += language_zh_CN.JS.FailedWindowLoadWarn + "<br>";
@@ -68,8 +70,10 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     warn += "</code></div>";
     $("#description").before(warn);
 
+    //删除所有可能相关的localstorage
     localStorage.removeItem("GF_Logistics_windowOnload");
     localStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem("GF_Logistics");
 }
 
 /**
