@@ -68,6 +68,7 @@ function removeStorageAndWarnDueToFailedWindowLoad() {
     warn += "</code></div>";
     $("#description").before(warn);
 
+    localStorage.removeItem("GF_Logistics_windowOnloadSuccess");
     localStorage.removeItem(LOCAL_STORAGE_KEY);
 }
 
