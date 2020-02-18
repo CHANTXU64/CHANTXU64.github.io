@@ -1255,7 +1255,7 @@ function calculateContractValue(BaseValue, SumValue, TotalRate) {
     return BaseValue / 100 + (BaseValue / SumValue - BaseValue / 100) * TotalRate;
 }
 /**版本 */
-var VERSION = "1.0.0-alpha";
+var VERSION = "1.0.0";
 
 /**
  * 用于判断浏览器是否能使用storage
