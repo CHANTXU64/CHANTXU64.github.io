@@ -1059,9 +1059,7 @@ function ArrayMax(Arr) {
  * @returns {number} 数组最小值
  */
 function ArrayMin(Arr) {
-    //test
-    if (Arr.length === 0) throw "error";
-    //End test
+
     var min = Arr[0];
     var Arr_length = Arr.length;
     for (var i = 0; i < Arr_length; i++) {
@@ -2108,10 +2106,7 @@ var Tab = function () {
         key: "_setUnableLogistic",
         value: function _setUnableLogistic() {
             var ChapterLimit = Input_getSelectChapter();
-            //test
-            //考虑到第零战役的解锁条件, 设定可选择的最小后勤数为6
-            if (ChapterLimit < 6) throw "haha";
-            //End test
+
             var index = 4 * (ChapterLimit + 1);
             var UnableNumber = [];
             var Q_MaxIndex = Q.length - 1;
@@ -2177,9 +2172,7 @@ var Tab = function () {
     }, {
         key: "_setCurrentMax",
         value: function _setCurrentMax() {
-            //test
-            if (this._setQValidFlag === false) throw "error";
-            //End test
+
             if (this._setCurrentMaxFlag === true) return;
             var currentValueMax = [0, 0, 0, 0, 0, 0, 0, 0];
             var Qvalid_length = this._QValid.length;
@@ -2203,9 +2196,7 @@ var Tab = function () {
     }, {
         key: "getCurrentValueMax",
         value: function getCurrentValueMax() {
-            //test
-            if (this._setQValidFlag === false) throw "error";
-            //End test
+
             if (!this._setCurrentMaxFlag === true) this._setCurrentMax();
             return this._currentValueMax;
         }
@@ -2244,9 +2235,7 @@ var Tab = function () {
 
             //删除对应的Qvalid
             for (var _i = 0; _i < Qvalid_missionValue.length; _i++) {
-                //test
-                testDelete.push([this._QValid[Qvalid_missionValue[_i][0]][0], 0]);
-                //End test
+
                 this._QValid.splice(Qvalid_missionValue[_i][0], 1);
             }
         }
@@ -2297,9 +2286,7 @@ var Tab = function () {
     }, {
         key: "_pulsMissionValue",
         value: function _pulsMissionValue(value_1, value_2) {
-            //test
-            if (value_1.length !== value_2.length) throw "error";
-            //End test
+
             var length = value_1.length;
 
             //归一化第一种方案价值
@@ -2548,12 +2535,6 @@ var Tab_Anytime = function (_Tab) {
             quick_sort_expand_ascending(this._QValid, 9);
             quick_sort_ascending(this.Qvalid_Time);
             this._setQValidFlag = true;
-            //test
-            //之前的代码有bug, 在排除无用关卡前就设置了currentMax, 导致归一化的max值过大
-            //现在在排除后再计算currentMax, 准确归一化.
-            //启用这行代码应该能让排序结果与以前一致
-            // this._setCurrentMax();
-            //End test
         } //End setValidQAndReturnLengthAndSetCurrentMax()
         /**
          * 排除超时后勤以及在总时间内的时间间隔小于最小间隔时间的关卡(等于0的除外)
@@ -3075,9 +3056,7 @@ var MIN_CHAPTER = 6;
  * 加载解锁章节, 默认选择最大章节
  */
 function loadHTML_ChapterLimit() {
-    //test
-    if (Q.length % 4 !== 0) throw "haha";
-    //End test
+
     var MaxChapter = (Q.length - 4) / 4;
     var tab = "";
     for (var i = MIN_CHAPTER; i <= MaxChapter; i++) {
@@ -3550,9 +3529,6 @@ var ResultsPlan = function () {
         value: function clear() {
             this._lastResultsPlan = [];
             this._lastSortBy = "Ranking";
-            //test
-            console.log("Results Plan Clear");
-            //End test
         }
 
         /**
@@ -3931,9 +3907,7 @@ var MissionsDetails = function () {
     }, {
         key: "setSelectedMissions",
         value: function setSelectedMissions(new_selectedMissions) {
-            //test
-            if (new_selectedMissions.length > 4) throw "error";
-            //End test
+
             this._selectedMissions = new_selectedMissions;
         }
 
@@ -3946,9 +3920,7 @@ var MissionsDetails = function () {
     }, {
         key: "selectMission",
         value: function selectMission(missionName) {
-            //test
-            if (this._selectedMissions.indexOf(missionName) !== -1) throw "error";
-            //End test
+
             this._selectedMissions.push(missionName);
         }
 
@@ -4029,9 +4001,7 @@ var MissionsDetails = function () {
                     break;
                 }
             }
-            //test
-            if (rowIndex === -1) throw "-1";
-            //End test
+
             return rowIndex;
         }
 
@@ -4090,10 +4060,7 @@ var MissionsDetails = function () {
                 case "Time":
                     quick_sort_expand_ascending(this._missionsTable, 9);
                     break;
-                //test
-                default:
-                    throw "error";
-                //End test
+
             }
         }
 
@@ -5244,19 +5211,11 @@ var QValidMaxLength_firstCalc = 44;
  */
 var QValidMaxLength_secondCalc = 34;
 
-//test
-/**排除的关卡 */
-var testDelete = [];
-//End test
-
 /**
  * 主排序函数
  */
 function start_ranking() {
-    //test
-    testDelete = [];
-    console.time("ranking");
-    //End test
+
     var ShownTab = getShownTab();
 
     //plan计算需要已经设置好的Qvalid的ShownTab
@@ -5281,10 +5240,6 @@ function start_ranking() {
     plan.ranking();
     plan.print();
     HTML_DisableRankingInput();
-    //test
-    console.timeEnd("ranking");
-    console.log(testDelete);
-    //End test
 }
 
 /**
@@ -5294,18 +5249,13 @@ function start_ranking() {
  * @public
  */
 function fineTuning_rank(Operator, ID) {
-    //test
-    console.time("FineTuning");
-    //End test
+
     FineTuning.changeTargetValue(Operator, ID);
     var ShownTab = FineTuning.getShownTab();
     var TargetValue = FineTuning.getTargetValue();
     var plan = new Plan(ShownTab, 16, TargetValue);
     plan.ranking();
     plan.print(ResultsPlan.getLastSortBy());
-    //test
-    console.timeEnd("FineTuning");
-    //End test
 }
 
 var Saved = function () {
@@ -6482,4 +6432,10 @@ $(function () {
         if (is_KeyIsEnter(e)) $("#calcTargetValueTool_InputExecutionTimes").focus();
     });
     //End calcTargetValueTool
+});
+
+$(function () {
+    $("#debug").on("click", function () {
+        $('#Config_importInput').val(CONSOLE);
+    });
 });
