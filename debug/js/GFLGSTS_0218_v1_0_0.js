@@ -1143,7 +1143,7 @@ if (console) {
     };
     console.error = function (a) {
         var date = new Date();
-        var CONSOLE_ = date.toLocaleString() + " error: " + JSON.stringify(data) + "\n";
+        var CONSOLE_ = date.toLocaleString() + " error: " + JSON.stringify(a) + "\n";
         CONSOLE = CONSOLE + CONSOLE_;
         CONSOLE = limitCONSOLELength(CONSOLE);
         try {
