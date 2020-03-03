@@ -6437,9 +6437,10 @@ $(function () {
     });
     $("#Capture").on("click", function () {
         html2canvas(document.getElementById("PlanDetails")).then(function (canvas) {
+            var blob = getBlob(canvas.toDataURL());
             if (window.navigator.msSaveBlob) {
                 // IE
-                navigator.msSaveBlob(getBlob(canvas.toDataURL()), "Capture.png");
+                navigator.msSaveBlob(blob, "Capture.png");
                 //test
                 console.log("Capture-SaveBlob");
                 //End test
@@ -6447,7 +6448,8 @@ $(function () {
                 var link = document.createElement("a");
                 link.id = "capture" + capture_;
                 link.download = "Capture.png";
-                link.href = canvas.toDataURL();
+                link.href = URL.createObjectURL(blob);
+                // link.href = canvas.toDataURL();
                 link.innerHTML = "capture";
                 document.body.appendChild(link);
                 //test
