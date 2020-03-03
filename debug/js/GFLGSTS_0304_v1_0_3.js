@@ -6439,12 +6439,9 @@ $(function () {
             if (window.navigator.msSaveBlob) {
                 // IE
                 navigator.msSaveBlob(getBlob(canvas.toDataURL()), "Capture.png");
-                //test
-                console.log("Capture-SaveBlob");
-                //End test
             } else {
                 var link = document.createElement("a");
-                link.download = "Capture.png";
+                // link.download = "Capture.png";
                 link.href = canvas.toDataURL();
                 link.target = "_blank";
                 link.click();
