@@ -6447,8 +6447,13 @@ $(function () {
                 link.href = canvas.toDataURL();
                 link.innerHTML = "capture";
                 document.body.appendChild(link);
-                // link.download = "Capture.png";
-                // link.click();
+                link.download = "Capture.png";
+                //test
+                console.log(link.href);
+                console.log(link.download);
+                console.log(link.href == canvas.toDataURL());
+                //End test
+                link.click();
                 //test
                 console.log("Capture-download");
                 //End test
