@@ -6436,21 +6436,23 @@ $(function () {
     });
     $("#Capture").on("click", function () {
         html2canvas(document.getElementById("PlanDetails")).then(function (canvas) {
-            // if (window.navigator.msSaveBlob) { // IE
-            navigator.msSaveBlob(getBlob(canvas.toDataURL()), "Capture.png");
-            //test
-            console.log("Capture-SaveBlob");
-            //End test
-            // }
-            // else {
-            // 	var link = document.createElement("a");
-            // 	link.href = canvas.toDataURL();
-            // 	link.download = "Capture.png";
-            //     link.click();
-            //     //test
-            //     console.log("Capture-download");
-            //     //End test
-            // }
+            if (window.navigator.msSaveBlob) {
+                // IE
+                navigator.msSaveBlob(getBlob(canvas.toDataURL()), "Capture.png");
+                //test
+                console.log("Capture-SaveBlob");
+                //End test
+            } else {
+                var link = document.createElement("a");
+                link.href = canvas.toDataURL();
+                link.innerHTML = "capture";
+                document.body.appendChild(link);
+                // link.download = "Capture.png";
+                // link.click();
+                //test
+                console.log("Capture-download");
+                //End test
+            }
         });
     });
     $("#PlanDetails_InputStartTime").on("input propertychange", function () {
