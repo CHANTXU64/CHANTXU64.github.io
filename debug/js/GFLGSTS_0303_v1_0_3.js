@@ -6435,11 +6435,22 @@ $(function () {
         Saved.saveThisPlan();
     });
     $("#Capture").on("click", function () {
-        html2canvas(document.getElementById("PlanDetails"), { logging: false }).then(function (canvas) {
-            var link = document.createElement("a");
-            link.href = canvas.toDataURL();
-            link.download = "Capture.png";
-            link.click();
+        html2canvas(document.getElementById("PlanDetails")).then(function (canvas) {
+            if (window.navigator.msSaveBlob) {
+                // IE
+                navigator.msSaveBlob(getBlob(canvas.toDataURL()), "Capture.png");
+                //test
+                console.log("Capture-SaveBlob");
+                //End test
+            } else {
+                var link = document.createElement("a");
+                link.href = canvas.toDataURL();
+                link.download = "Capture.png";
+                link.click();
+                //test
+                console.log("Capture-download");
+                //End test
+            }
         });
     });
     $("#PlanDetails_InputStartTime").on("input propertychange", function () {
@@ -6460,6 +6471,60 @@ $(function () {
         }
     });
 });
+/**
+ * 获取Blob
+ * @param {stirng} base64
+ */
+function getBlob(base64) {
+    return b64toBlob(getData(base64), getContentType(base64));
+}
+/**
+ * 获取文件类型
+ * @param {string} base64
+ */
+function getContentType(base64) {
+    //正则表达式筛选出文件类型
+    //return /data:([^;]*);/i.exec(base64)[1];
+    var type = base64.split(';')[0];
+    var typeData = type.split(':')[1];
+    return typeData;
+}
+/**
+ * 获取base64中的数据
+ * @param {string} base64
+ */
+function getData(base64) {
+    return base64.substr(base64.indexOf("base64,") + 7, base64.length);
+}
+/**
+ * base64转Blob
+ * @param {string} b64Data
+ * @param {string} contentType
+ * @param {number} sliceSize
+ */
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
 //End Plan Details
 
 //calcTargetValueTool
