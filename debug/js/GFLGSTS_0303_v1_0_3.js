@@ -6429,6 +6429,7 @@ $(function () {
 });
 //End Saved MissionTable Panel
 
+var capture_ = 0;
 //Plan Details
 $(function () {
     $("#savePlan").on("click", function () {
@@ -6444,20 +6445,23 @@ $(function () {
                 //End test
             } else {
                 var link = document.createElement("a");
+                link.id = "capture" + capture_;
+                link.download = "Capture.png";
                 link.href = canvas.toDataURL();
                 link.innerHTML = "capture";
                 document.body.appendChild(link);
-                link.download = "Capture.png";
                 //test
-                console.log(link.href);
                 console.log(link.download);
                 console.log(link.href == canvas.toDataURL());
+                console.log(document.getElementById("capture" + capture_).href == link.href);
+                console.log(document.getElementById("capture" + capture_).download);
                 //End test
                 link.click();
                 //test
                 console.log("Capture-download");
                 //End test
             }
+            capture_++;
         });
     });
     $("#PlanDetails_InputStartTime").on("input propertychange", function () {
