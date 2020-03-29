@@ -2,7 +2,7 @@
  * [GF_logistics]{@link https://github.com/CHANTXU64/Girls-Frontline}
  *
  * @namespace GF_logistics
- * @version 1.1.0-alpha
+ * @version 1.1.0-rc
  * @author ChantXu64 [chantxu@outlook.com]
  * @copyright ChantXu64
  * @license MIT
