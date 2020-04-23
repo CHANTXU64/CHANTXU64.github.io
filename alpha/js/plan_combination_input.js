@@ -111,3 +111,37 @@ function Input_setPC_planEndDate_MAXMIN() {
         min = addDate(Input_getPC_startDate(), 1);
     endDate_elem.setAttribute("min", min);
 }
+
+function Input_getPC_Consumption_reAndco() {
+    const name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
+    let consumption = [];
+    for (let i = 0; i < 8; ++i) {
+        let value = getNumberFromHTML($("#Consumption_" + name[i]));
+        consumption.push(value);
+    }
+    return consumption;
+}
+
+function Input_setPC_Consumption_reAndco(value = ["", "", "", "", "", "", "", ""]) {
+    const name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
+    for (let i = 0; i < 8; ++i) {
+        $("#Consumption_" + name[i]).val(value[i]);
+    }
+}
+
+function Input_getPC_Consumption_times() {
+    return getPositiveValueFromHTML($("#Consumption_times"));
+}
+
+function Input_setPC_Consumption_times(times = "1") {
+    $("#Consumption_times").val(times);
+}
+
+function Input_getPC_demand(NeedCorrection) {
+    const class_name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
+    let demand = [];
+    for (let i = 0; i < 8; ++i) {
+        demand.push(getPositiveValueFromHTML($("#PC_demand_" + class_name[i]), NeedCorrection));
+    }
+    return demand;
+}

@@ -1,4 +1,4 @@
-class PlanCombinationPlans {
+class PC_LogisticsPlan {
     static init() {
         let startDate = Input_getPC_startDate();
         let endDate = Input_getPC_endDate();
@@ -59,6 +59,8 @@ class PlanCombinationPlans {
         newPlan.saved = savedData;
         newPlan.time = planTime;
         newPlan.number = this._plansNumber++;
+        const is_calcByHour = false;
+        newPlan.reAndco = Saved.getReAndCoBySaved(newPlan.saved, is_calcByHour);
         this._plans.push(newPlan);
 
         PlanCombinationTimePeriod.clear();
@@ -84,19 +86,28 @@ class PlanCombinationPlans {
             newData.time = this._plans[i].time;
             newData.timePeriod = [];
             newData.number = this._plans[i].number;
+            newData.reAndco = this._plans[i].reAndco;
             let timePeriod_length = this._plans[i].timePeriod.length;
             for (let ii = 0; ii < timePeriod_length; ++ii) {
                 newData.timePeriod.push(this._plans[i].timePeriod[ii].slice());
             }
             data.push(newData);
         }
-        PlanCombinationCharts.printChart_Timetable(data);
+        PlanCombinationChart.printFromLogisticsPlan(data);
+    }
+
+    static chartGetPlans() {
+        return this._plans;
+    }
+
+    static rankingGetPlans() {
+        return this._plans;
     }
 }
 
-PlanCombinationPlans._plans = [];
-PlanCombinationPlans._plansNumber = 0;
-PlanCombinationPlans._startDate = "";
-PlanCombinationPlans._endDate = "";
-PlanCombinationPlans._totalDays = 0;
-PlanCombinationPlans._totalTimePerDay = [];
+PC_LogisticsPlan._plans = [];
+PC_LogisticsPlan._plansNumber = 0;
+PC_LogisticsPlan._startDate = "";
+PC_LogisticsPlan._endDate = "";
+PC_LogisticsPlan._totalDays = 0;
+PC_LogisticsPlan._totalTimePerDay = [];
