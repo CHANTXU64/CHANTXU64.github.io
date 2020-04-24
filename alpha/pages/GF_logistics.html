@@ -161,12 +161,12 @@
             <input id="PlanCombination_endDate" type="date" class="form-control" style="width: auto; max-width: 150px;">
           </div>
         </div>
-        <div class="box-wrap">
+        <div id="PlanCombination_current_box" class="box-wrap">
           <span class="box-title">现有量</span>
           <div id="PlanCombination_current_re" class="form-row" style="max-width: 980px;"></div>
           <div id="PlanCombination_current_co" class="form-row" style="max-width: 980px;"></div>
         </div>
-        <div id="PlanCombination_chart" style="height: 250px; width: auto; margin: 0 -10px 1rem -10px"></div>
+        <div id="PlanCombination_chart" style="height: 270px; width: auto; margin: 0 -10px 1rem -10px"></div>
         <div class="mb-2">
           <button type="button" class="btn btn-danger" id="PC_deleteAllPlans">delete All</button>
           <button type="button" class="btn btn-danger" id="PC_deletePlan" disabled>delete</button>
@@ -187,6 +187,7 @@
                   <span class="box-title">目标量</span>
                   <div id="PlanCombination_target_re" class="form-row" style="max-width: 980px;"></div>
                   <div id="PlanCombination_target_co" class="form-row" style="max-width: 980px;"></div>
+                  <button type="button" class="btn btn-primary mb-2" id="PC_calcDemand">calc</button>
                 </div>
               </div>
             </div>

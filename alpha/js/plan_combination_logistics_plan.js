@@ -68,10 +68,33 @@ class PC_LogisticsPlan {
         this._plansHasChanged();
     }
 
+    static apply(plan_number) {
+        let index = 0;
+        while(1) {
+            if (this._plans[index].number === plan_number)
+                break;
+            ++index;
+        }
+        Saved.apply(this._plans[index].saved);
+    }
+
     static deleteAll() {
         this.clear();
         PlanCombination_enabledDate();
         this._plansHasChanged();
+    }
+
+    static deleteThis(plan_number) {
+        let index = 0;
+        while(1) {
+            if (this._plans[index].number === plan_number)
+                break;
+            ++index;
+        }
+        this._plans.splice(index, 1);
+        this._plansHasChanged();
+        if (this._plans.length === 0 && PC_ConsumptionPlan._plans.length === 0)
+            PlanCombination_enabledDate();
     }
 
     static _plansHasChanged() {

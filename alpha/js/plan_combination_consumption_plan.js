@@ -128,6 +128,25 @@ class PC_ConsumptionPlan {
         this._plansHasChanged();
     }
 
+    static deleteAll() {
+        this.clear();
+        PlanCombination_enabledDate();
+        this._plansHasChanged();
+    }
+
+    static deleteThis(plan_number) {
+        let index = 0;
+        while(1) {
+            if (this._plans[index].number === plan_number)
+                break;
+            ++index;
+        }
+        this._plans.splice(index, 1);
+        this._plansHasChanged();
+        if (this._plans.length === 0 && PC_LogisticsPlan._plans.length === 0)
+            PlanCombination_enabledDate();
+    }
+
     static _plansHasChanged() {
         PlanCombinationChart.printFromConsumptionPlan(this._plans);
     }

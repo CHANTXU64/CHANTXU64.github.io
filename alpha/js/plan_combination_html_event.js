@@ -99,3 +99,11 @@ function PC_ranking_end() {
     $("#PC_ranking_progress").addClass("d-none");
     html_waiting_cancel();
 }
+
+$("#PlanCombination_current_box").on("blur", "input[id^=PC_current_]", function () {
+    PlanCombinationChart.print(PC_LogisticsPlan.chartGetPlans(), PC_ConsumptionPlan.chartGetPlans());
+});
+
+$("#PC_calcDemand").on("click", function () {
+    PC_calcDemand();
+});

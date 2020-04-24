@@ -46,16 +46,40 @@ class PlanCombinationChart {
         else
             Chart = echarts.getInstanceByDom(Chart_elem);
 
+        Chart.off("click");
+
         let startDate = Input_getPC_startDate();
         let endDate = Input_getPC_endDate();
         let totalDays = calcDaysBetween2Dates(startDate, endDate);
 
         this._LogisticsTimetableData = this._LogisticsPlanDataToTimetableData(LogisticsPlanData, totalDays);
         this._ConsumptionTimetableData = this._ConsumptionPlanDataToTimetableData(ConsumptionPlanData, totalDays);
-        this._reAndcoData = this._calcReAndCoData(LogisticsPlanData, ConsumptionPlanData, totalDays);
+        let currentValue = Input_getPC_current(true);
+        this._reAndcoData = this._calcReAndCoData(currentValue, LogisticsPlanData, ConsumptionPlanData, totalDays);
 
         let option = plan_combination_getChartOption(startDate, endDate);
         Chart.setOption(option);
+
+        Chart.on("click", {seriesIndex: 8}, function (params) {
+            let plan_number = params.data.name;
+            PC_LogisticsPlan.apply(plan_number);
+            $("#PC_deletePlan").removeAttr("disabled");
+            $("#PC_deletePlan").off();
+            $("#PC_deletePlan").on("click", function () {
+                PC_LogisticsPlan.deleteThis(plan_number);
+                $("#PC_deletePlan").attr("disabled", "true");
+            });
+        });
+
+        Chart.on("click", {seriesIndex: 9}, function (params) {
+            let plan_number = params.data.name;
+            $("#PC_deletePlan").removeAttr("disabled");
+            $("#PC_deletePlan").off();
+            $("#PC_deletePlan").on("click", function () {
+                PC_ConsumptionPlan.deleteThis(plan_number);
+                $("#PC_deletePlan").attr("disabled", "true");
+            });
+        });
     }
 
     static _LogisticsPlanDataToTimetableData(LogisticsPlanData, totalDays) {
@@ -113,11 +137,12 @@ class PlanCombinationChart {
         return data;
     }
 
-    static _calcReAndCoData(LogisticsPlanData, ConsumptionPlanData, totalDays) {
+    static _calcReAndCoData(currentValue, LogisticsPlanData, ConsumptionPlanData, totalDays) {
         let data = [];
         for (let i = 0; i < 8; ++i) {
             let newData = new Array(totalDays);
             newData.fill(0);
+            newData[0] = currentValue[i];
             let L_plans_length = LogisticsPlanData.length;
             for (let ii = 0; ii < L_plans_length; ++ii) {
                 let reORco = LogisticsPlanData[ii].reAndco[i];
@@ -143,10 +168,11 @@ class PlanCombinationChart {
                 }
             }
 
+            newData[0] = Math.round(newData[0]);
             for (let i = 1; i < totalDays; ++i) {
-                newData[i] += newData[i - 1];
+                newData[i] = Math.round(newData[i] + newData[i - 1]);
             }
-            newData.unshift(0);
+            newData.unshift(Math.round(currentValue[i]));
             data.push(newData);
         }
         return data;
