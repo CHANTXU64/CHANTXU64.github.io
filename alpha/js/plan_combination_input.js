@@ -137,7 +137,7 @@ function Input_setPC_Consumption_times(times = "1") {
     $("#Consumption_times").val(times);
 }
 
-function Input_getPC_demand(NeedCorrection) {
+function Input_getPC_demand(NeedCorrection = false) {
     const class_name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
     let demand = [];
     for (let i = 0; i < 8; ++i) {
@@ -153,20 +153,34 @@ function Input_setPC_demand(demandValue) {
     }
 }
 
-function Input_getPC_current(NeedCorrection) {
+function Input_getPC_current(NeedCorrection = false) {
     const class_name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
     let current = [];
     for (let i = 0; i < 8; ++i) {
         current.push(getPositiveValueFromHTML($("#PC_current_" + class_name[i]), NeedCorrection));
+        if (i < 4) {
+            if (current[i] > 300000) {
+                current[i] = 300000;
+                if (NeedCorrection)
+                    $("#PC_current_" + class_name[i]).val(current[i]);
+            }
+        }
     }
     return current;
 }
 
-function Input_getPC_target(NeedCorrection) {
+function Input_getPC_target(NeedCorrection = false) {
     const class_name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
     let target = [];
     for (let i = 0; i < 8; ++i) {
         target.push(getPositiveValueFromHTML($("#PC_target_" + class_name[i]), NeedCorrection));
+        if (i < 4) {
+            if (target[i] > 300000) {
+                target[i] = 300000;
+                if (NeedCorrection)
+                    $("#PC_target_" + class_name[i]).val(target[i]);
+            }
+        }
     }
     return target;
 }

@@ -76,6 +76,7 @@ class PC_LogisticsPlan {
             ++index;
         }
         Saved.apply(this._plans[index].saved);
+        PlanCombinationTimePeriod.setTimePeriod(this._plans[index].timePeriod);
     }
 
     static deleteAll() {
@@ -90,6 +91,15 @@ class PC_LogisticsPlan {
             if (this._plans[index].number === plan_number)
                 break;
             ++index;
+        }
+        let totalTime = this._plans[index].time;
+        let timePeriod_length = this._plans[index].timePeriod.length;
+        for (let i = 0; i < timePeriod_length; ++i) {
+            let startDate = this._plans[index].timePeriod[i][0];
+            let endDate = this._plans[index].timePeriod[i][1];
+            for (let ii = startDate; ii < endDate; ++ii) {
+                this._totalTimePerDay[ii] -= totalTime;
+            }
         }
         this._plans.splice(index, 1);
         this._plansHasChanged();

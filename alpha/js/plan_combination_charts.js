@@ -41,12 +41,15 @@ class PlanCombinationChart {
     static _print_main(LogisticsPlanData = [{timePeriod: [0, 0], time: 0, number: -1, reAndco: []}], ConsumptionPlanData = [{timePeriod: [0, 0], TimetableData: [0], number: -1, reAndco: []}]) {
         let Chart_elem = document.getElementById("PlanCombination_chart");
         let Chart; //图表实例
-        if (Chart_elem.getAttribute("_echarts_instance_") === null)
+        if (Chart_elem.getAttribute("_echarts_instance_") === null || Chart_elem.getAttribute("_echarts_instance_") === "")
             Chart = echarts.init(Chart_elem);
-        else
+        else {
             Chart = echarts.getInstanceByDom(Chart_elem);
-
-        Chart.off("click");
+            Chart.off("click");
+            Chart.clear();
+            // Chart.dispose();
+            // Chart = echarts.init(Chart_elem);
+        }
 
         let startDate = Input_getPC_startDate();
         let endDate = Input_getPC_endDate();
@@ -69,6 +72,7 @@ class PlanCombinationChart {
                 PC_LogisticsPlan.deleteThis(plan_number);
                 $("#PC_deletePlan").attr("disabled", "true");
             });
+            Saved.cancelSelected();
         });
 
         Chart.on("click", {seriesIndex: 9}, function (params) {
@@ -168,9 +172,16 @@ class PlanCombinationChart {
                 }
             }
 
-            newData[0] = Math.round(newData[0]);
-            for (let i = 1; i < totalDays; ++i) {
-                newData[i] = Math.round(newData[i] + newData[i - 1]);
+            if (i < 4)
+                newData[0] = Math.min(Math.round(newData[0]), 300000);
+            else
+                newData[0] = Math.round(newData[0]);
+            for (let ii = 1; ii < totalDays; ++ii) {
+                let value = Math.round(newData[ii] + newData[ii - 1]);
+                if (i < 4)
+                    newData[ii] = value < 300000 ? value : 300000;
+                else
+                    newData[ii] = value;
             }
             newData.unshift(Math.round(currentValue[i]));
             data.push(newData);

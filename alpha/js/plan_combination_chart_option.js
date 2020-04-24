@@ -23,9 +23,6 @@ function plan_combination_getChartOption(startDate, endDate) {
                 height: 70
             }
         ],
-        // tooltip: {
-        //     trigger: 'axis',
-        // },
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -45,6 +42,15 @@ function plan_combination_getChartOption(startDate, endDate) {
                 return obj;
             },
             extraCssText: 'width: 170px'
+        },
+        toolbox: {
+            right: 30,
+            feature: {
+                saveAsImage: {
+                    name: 'GF',
+                    title: 'Capture',
+                }
+            }
         },
         dataZoom: [
             {
@@ -79,7 +85,7 @@ function plan_combination_getChartOption(startDate, endDate) {
         ],
         legend: {
             data: reAndco_name,
-            left: 10
+            left: 30
         },
         xAxis: [
             {
@@ -310,7 +316,7 @@ function plan_combination_getChartOption(startDate, endDate) {
                 yAxisIndex: 2,
             }
         ],
-        // animation: animation,
+        animation: animation,
     };
     return option;
 }

@@ -111,3 +111,11 @@ function PC_calcDemand() {
     }
     Input_setPC_demand(demandValue);
 }
+
+function PC_saveAll() {
+    let plans_length = PC_LogisticsPlan._plans.length;
+    for (let i = 0; i < plans_length; ++i) {
+        Saved._saved.push(PC_LogisticsPlan._plans[i].saved);
+        Saved._printLastSaved();
+    }
+}
