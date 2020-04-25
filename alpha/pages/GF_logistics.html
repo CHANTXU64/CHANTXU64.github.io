@@ -19,6 +19,7 @@
 
   <!-- GF css !python -->
   <!-- 如果修改这些内容还需要修改下面script中重新加载的css文件名 -->
+  <link href="../lang/languages.css" rel="stylesheet">
   <link href="../css/slider.css" rel="stylesheet">
   <link href="../css/button.css" rel="stylesheet">
   <link href="../css/group.css" rel="stylesheet">
@@ -39,7 +40,7 @@
     //backup vendor bootstrap !python
     //如果修改了引入的bootstrap的js或css文件, 还需要修改.release.py中compressHTML()的内容
     //由于自己的css覆盖了bootstrap的css, 所以在重新加载bootstrap后还需再重新加载自己的css
-    window.bootstrap || document.write('<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><link href="../css/slider.css" rel="stylesheet"><link href="../css/button.css" rel="stylesheet"><link href="../css/group.css" rel="stylesheet"><link href="../css/main.css" rel="stylesheet"><link href="../css/plan_combination.css" rel="stylesheet"><script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"><\/script>');
+    window.bootstrap || document.write('<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><link href="../lang/languages.css" rel="stylesheet"><link href="../css/slider.css" rel="stylesheet"><link href="../css/button.css" rel="stylesheet"><link href="../css/group.css" rel="stylesheet"><link href="../css/main.css" rel="stylesheet"><link href="../css/plan_combination.css" rel="stylesheet"><script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"><\/script>');
     //end backup vendor bootstrap !python
   </script>
   <style>
@@ -106,7 +107,7 @@
       <span class="sr-only">Loading...</span>
     </div>
     <div class="custom-control custom-switch float-right">
-      <input type="checkbox" class="custom-control-input" id="PlanCombinationSwitch" autocomplete="off">
+      <input type="checkbox" class="custom-control-input" id="PlanCombinationSwitch" autocomplete="off" disabled>
       <label class="custom-control-label" for="PlanCombinationSwitch"></label>
     </div>
     <hr style="margin: 0.5rem 0 1rem 0; width: 100%;" />
@@ -170,7 +171,7 @@
         <button type="button" class="btn btn-danger mb-2" id="PC_deleteAllPlans"></button>
         <button type="button" class="btn btn-info mb-2" id="PC_saveAll"></button>
         <button type="button" class="btn btn-danger mb-2" id="PC_deletePlan" disabled></button>
-        <div id="PlanCombination_chart" style="height: 270px; width: auto; margin: 0 -10px 1rem -10px"></div>
+        <div id="PlanCombination_chart" style="height: 280px; width: auto; margin: 0 -10px 1rem -10px"></div>
         <div class="card">
           <div class="card-header pt-2 pb-2 border-bottom-0">
             <button class="btn btn-link p-0 collapsed" type="button" data-toggle="collapse"
@@ -178,7 +179,7 @@
                     id="PC_Ranking_card_title"></button>
           </div>
           <div id="PC_Ranking_card" class="collapse">
-            <div class="card-body p-2">
+            <div class="card-body p-2" id="PlanCombination_demand_card">
               <div class="card mb-2">
                 <div class="card-header pt-2 pb-2 border-bottom-0">
                   <button class="btn btn-link p-0 collapsed" type="button" data-toggle="collapse"
@@ -592,7 +593,12 @@
     //当用js切换nav显示时, 4.4.1bootstrap会在全部东西处理完后开始切换动画, 避免阻塞, 事先切换nav
     var HTMLSCRIPT_ShownTab = "Anytime";
     try {
-      HTMLSCRIPT_ShownTab = JSON.parse(localStorage.getItem("GF_Logistics_v1.x.x")).TabName;
+      let storage = localStorage.getItem("GF_Logistics_v1.x.x");
+      if (storage === null)
+        storage = localStorage.getItem("GF_Logistics");
+      if (storage === null)
+        storage = localStorage.getItem("GF_Logistics_vDevelop.x.x");
+      HTMLSCRIPT_ShownTab = JSON.parse(storage).TabName;
     } catch (ex) { }
     switch (HTMLSCRIPT_ShownTab) {
       case "Anytime":
@@ -635,6 +641,7 @@
   <script src="../js/plan.js"></script>
   <script src="../js/ranking_main.js"></script>
   <script src="../js/plan_combination_function.js"></script>
+  <script src="../js/plan_combination_localstorage.js"></script>
   <script src="../js/plan_combination_input.js"></script>
   <script src="../js/plan_combination_time_period.js"></script>
   <script src="../js/plan_combination_consumption_plan.js"></script>

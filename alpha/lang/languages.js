@@ -6,6 +6,8 @@ const language_zh_CN = {
     name: "简体中文",
     lang: "zh-Hans",
     title: "少女前线-后勤组合排序器",
+    cssClass: "zh-Hans",
+    otherLangCssClass: ["zh-Hant", "en"],
     HTML: {
         Modal_footer_button_ok: "确定",
         Modal_footer_button_cancel: "取消",
@@ -248,11 +250,6 @@ const language_zh_CN = {
         PC_deleteAll_confirm: "是否要删除所有方案？",
         PC_saveAll_confirm: "是否要保存所有后勤方案？",
     },
-    CSS: {
-        TargetValueSpan_Width: "55px",
-        FineTuningSpan_Width: "40%",
-        FineTuningButton_Width: "30%",
-    },
     html_class: {
         Manp: "人力",
         Ammu: "弹药",
@@ -278,6 +275,8 @@ const language_zh_TW = {
     name: "繁體中文",
     lang: "zh-Hant",
     title: "少女前線-後勤組合排序器",
+    cssClass: "zh-Hant",
+    otherLangCssClass: ["zh-Hans", "en"],
     HTML: {
         Modal_footer_button_ok: "確定",
         Modal_footer_button_cancel: "取消",
@@ -519,16 +518,13 @@ const language_zh_TW = {
         config_alert: "這將會覆蓋現有所有的數據，是否要繼續？",
         FailedWindowLoadWarn: "可能由於Web存儲數據不正確, 導致網頁崩潰. 您可以將下面的數據報告到GitHub或發​​送郵件到chantxu@outlook.com",
     },
-    CSS: {
-        TargetValueSpan_Width: "55px",
-        FineTuningSpan_Width: "40%",
-        FineTuningButton_Width: "30%",
-    }
 };
 const language_en = {
     name: "English",
     lang: "en",
     title: "Girls' Frontline Logistics Combination Calculator",
+    cssClass: "en",
+    otherLangCssClass: ["zh-Hans", "zh-Hant"],
     HTML: {
         Modal_footer_button_ok: "OK",
         Modal_footer_button_cancel: "Cancel",
@@ -739,9 +735,4 @@ const language_en = {
         config_alert: "This operation will overwrite all configurations. Do you want to continue?",
         FailedWindowLoadWarn: "The webpage may crash due to incorrect web storage. You can report the following data to GitHub or send to chantxu@outlook.com",
     },
-    CSS: {
-        TargetValueSpan_Width: "66px",
-        FineTuningSpan_Width: "60%",
-        FineTuningButton_Width: "20%",
-    }
 };

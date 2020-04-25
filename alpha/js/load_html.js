@@ -18,7 +18,7 @@ function loadHTML_Target() {
     for (let i = 0; i < 8; i++) {
         HTML += '<div class="input-group input-group-regular" style="margin-bottom: 10px;"><label for="';
         HTML += Target[i];
-        HTML += '" class="' + TargetName[i] + ' input-group-span input-group-text"style="padding-right:10px;padding-left:10px;"';
+        HTML += '" class="reAndco-label ' + TargetName[i] + ' input-group-span input-group-text"style="padding-right:10px;padding-left:10px;"';
         HTML += 'id=' + TargetName[i] + '>';
         HTML += '</label><button class="btn btn-outline-dark input-group-btn btn-bolder"type="button"id="Target_minus_1';
         if (i < 4)
@@ -133,25 +133,11 @@ function loadHTML_language() {
     // PlanCombinationChart.print(PC_LogisticsPlan.chartGetPlans(), PC_ConsumptionPlan.chartGetPlans());
 
     //style-------------
-    let targetSpanWidth = language_CSS.TargetValueSpan_Width;
-    document.getElementById("Manp").style.width = targetSpanWidth;
-    document.getElementById("Ammu").style.width = targetSpanWidth;
-    document.getElementById("Rati").style.width = targetSpanWidth;
-    document.getElementById("Part").style.width = targetSpanWidth;
-    document.getElementById("TPro").style.width = targetSpanWidth;
-    document.getElementById("Equi").style.width = targetSpanWidth;
-    document.getElementById("QPro").style.width = targetSpanWidth;
-    document.getElementById("QRes").style.width = targetSpanWidth;
-    // document.getElementById("PC_MT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_AT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_RT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_PT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_TT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_ET_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_QPT_label").style.width = targetSpanWidth;
-    // document.getElementById("PC_QRT_label").style.width = targetSpanWidth;
-    //------------------
-    
+    for (let i in language.otherLangCssClass) {
+        $("body").removeClass(language.otherLangCssClass[i]);
+    }
+    $("body").addClass(language.cssClass);
+
     //class
     let language_htmlclass = language.html_class;
     for (let class_name in language_htmlclass) {
