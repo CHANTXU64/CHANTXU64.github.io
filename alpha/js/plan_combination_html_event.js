@@ -37,6 +37,11 @@ JQ_selector_PC_endDate.on("blur", function () {
     PlanCombinationChart.print();
 });
 
+$("#CommanderLevel").on("blur", function () {
+    PC_storageSetItem("level", Input_getPC_CommanderLevel());
+    PlanCombinationChart.print(PC_LogisticsPlan.chartGetPlans(), PC_ConsumptionPlan.chartGetPlans());
+})
+
 const JQ_selector_PC_addTimePeriodStartDate = $("#PlanCombination_planStartDate");
 
 JQ_selector_PC_addTimePeriodStartDate.on("blur", function () {

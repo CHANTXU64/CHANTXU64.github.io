@@ -8,6 +8,16 @@ function plan_combination_getChartOption(startDate, endDate) {
     let lang = language.JS;
     let reAndco_name = [lang.Manp, lang.Ammu, lang.Rati, lang.Part, lang.TPro, lang.Equi, lang.QPro, lang.QRes]
     let animation = false;
+    let level = Input_getPC_CommanderLevel();
+    let softcap = getResourceSoftcap(level);
+    let is_regen = (level !== -1);
+    let resourceMarkLine;
+    if (is_regen) {
+        resourceMarkLine = [{yAxis: 0}, {yAxis: softcap}, {yAxis: 300000}];
+    }
+    else {
+        resourceMarkLine = [{yAxis: 0},{yAxis: 300000}];
+    }
     if (!IsMobile())
         animation = true;
 
@@ -179,11 +189,7 @@ function plan_combination_getChartOption(startDate, endDate) {
                 markLine: {
                     silent: true,
                     label: {show: false},
-                    data: [{
-                        yAxis: 0
-                    }, {
-                        yAxis: 300000
-                    }],
+                    data: resourceMarkLine,
                     symbol: 'none',
                     precision: 0,
                 }
@@ -197,11 +203,7 @@ function plan_combination_getChartOption(startDate, endDate) {
                 markLine: {
                     silent: true,
                     label: {show: false},
-                    data: [{
-                        yAxis: 0
-                    }, {
-                        yAxis: 300000
-                    }],
+                    data: resourceMarkLine,
                     symbol: 'none',
                     precision: 0,
                 }
@@ -215,11 +217,7 @@ function plan_combination_getChartOption(startDate, endDate) {
                 markLine: {
                     silent: true,
                     label: {show: false},
-                    data: [{
-                        yAxis: 0
-                    }, {
-                        yAxis: 300000
-                    }],
+                    data: resourceMarkLine,
                     symbol: 'none',
                     precision: 0,
                 }
@@ -233,11 +231,7 @@ function plan_combination_getChartOption(startDate, endDate) {
                 markLine: {
                     silent: true,
                     label: {show: false},
-                    data: [{
-                        yAxis: 0
-                    }, {
-                        yAxis: 300000
-                    }],
+                    data: resourceMarkLine,
                     symbol: 'none',
                     precision: 0,
                 }

@@ -98,6 +98,17 @@ function getPositiveValueFromHTML(JQ_selector, NeedCorrection = false) {
     return Value;
 }
 
+function getPositiveIntegerFromHTML(JQ_selector, NeedCorrection = false) {
+    let posInt;
+    if (is_NonPositiveNumberOrInfinity(JQ_selector.val()))
+        posInt = 0;
+    else
+        posInt = parseInt(JQ_selector.val());
+    if (NeedCorrection)
+        JQ_selector.val(posInt);
+    return posInt;
+}
+
 function is_NonNumberOrInfinity(x) {
     if (x === "" || isNaN(x) || x === "Infinity")
         return true;
