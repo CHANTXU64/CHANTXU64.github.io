@@ -18,20 +18,25 @@ function plan_combination_getChartOption(startDate, endDate) {
                 right: 45,
                 top: 30,
                 height: 125,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'line'
+                    },
+                }
             },
             {
                 left: 60,
                 right: 45,
                 bottom: 55,
-                height: 70
+                height: 70,
+                tooltip: {
+                    type: 'item',
+                }
             }
         ],
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                // type: 'cross'
-                type: 'line'
-            },
+            trigger: 'item',
             backgroundColor: 'rgba(245, 245, 245, 0.8)',
             borderWidth: 1,
             borderColor: '#ccc',
@@ -104,23 +109,27 @@ function plan_combination_getChartOption(startDate, endDate) {
             },
             {
                 // type: 'category',
+                type: 'time',
                 min: 0,
                 scale: true,
                 // boundaryGap: false,
                 // data: xAxisData,
+                minInterval: 1,
+                // interval: 1,
                 axisLabel: {
-                    // formatter: function (val) {
-                    //     let shortDate = val.slice(5);
-                    //     if (is_sameYear)
-                    //         return shortDate;
-                    //     else {
-                    //         let year = val.slice(0, 4);
-                    //         return shortDate + '\n' + year;
-                    //     }
-                    // },
+                    formatter: function (val) {
+                        let date = addDate(startDate, val);
+                        let shortDate = date.slice(5);
+                        if (is_sameYear)
+                            return shortDate;
+                        else {
+                            let year = date.slice(0, 4);
+                            return shortDate + '\n' + year;
+                        }
+                    },
                 },
                 max: totalDays,
-                axisLine: {onZero: false},
+                // axisLine: {onZero: false},
                 gridIndex: 1
             }
         ],
@@ -309,6 +318,28 @@ function plan_combination_getChartOption(startDate, endDate) {
                 clip: true,
                 xAxisIndex: 1,
                 yAxisIndex: 2,
+                tooltip: {
+                    formatter: language.JS.chartTooltip_L + '<br/>' + language.JS.Mission,
+                    formatter: function (params) {
+                        let index = params.dataIndex;
+                        let name = language.JS.chartTooltip_L;
+                        let LogisticsPlanData = PlanCombinationChart._LogisticsTimetableOriginalData[index];
+                        let Missions = LogisticsPlanData.saved.Missions;
+                        let text = name + '<br>';
+                        text += language.JS.Mission + ': <br>';
+                        for (let i = 0; i < Missions.length; ++i) {
+                            text += Missions[i] + '<br>';
+                        }
+                        return text;
+                    }
+                },
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#000',
+                        borderWidth: 1,
+                        borderType: 'solid'
+                    }
+                }
             },
             {
                 type: 'custom',
@@ -317,6 +348,34 @@ function plan_combination_getChartOption(startDate, endDate) {
                 clip: true,
                 xAxisIndex: 1,
                 yAxisIndex: 2,
+                tooltip: {
+                    formatter: function (params) {
+                        let index = params.dataIndex;
+                        let name = language.JS.chartTooltip_C;
+                        let consumptionData = PlanCombinationChart._ConsumptionTimetableOriginalData[index];
+                        let reAndco = consumptionData.reAndco;
+                        let text = name + '<br>';
+                        // for (let i = 0; i < consumptionData.timePeriod.length; ++i) {
+                        //     text += addDate(PC_ConsumptionPlan._startDate, consumptionData.timePeriod[i][0]);
+                        //     text += ' ~ ';
+                        //     text += addDate(PC_ConsumptionPlan._startDate, consumptionData.timePeriod[i][1]);
+                        //     text += ', ';
+                        // }
+                        const class_name = ['Manp', 'Ammu', 'Rati', 'Part', 'TPro', 'Equi', 'QPro', 'QRes'];
+                        for (let i = 0; i < 8; ++i) {
+                            text += language.JS[class_name[i]];
+                            text += ': ' + reAndco[i] + '<br>';
+                        }
+                        return text;
+                    }
+                },
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#000',
+                        borderWidth: 1,
+                        borderType: 'solid'
+                    }
+                }
             }
         ],
         animation: animation,

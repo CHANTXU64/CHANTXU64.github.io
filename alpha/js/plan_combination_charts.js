@@ -55,6 +55,8 @@ class PlanCombinationChart {
         let endDate = Input_getPC_endDate();
         let totalDays = calcDaysBetween2Dates(startDate, endDate);
 
+        this._LogisticsTimetableOriginalData = LogisticsPlanData;
+        this._ConsumptionTimetableOriginalData = ConsumptionPlanData;
         this._LogisticsTimetableData = this._LogisticsPlanDataToTimetableData(LogisticsPlanData, totalDays);
         this._ConsumptionTimetableData = this._ConsumptionPlanDataToTimetableData(ConsumptionPlanData, totalDays);
         let currentValue = Input_getPC_current(true);
@@ -135,7 +137,7 @@ class PlanCombinationChart {
             newData.name = ConsumptionPlanData[i].number;
             newData.value = ConsumptionPlanData[i].TimetableData;
             newData.itemStyle = {};
-            newData.itemStyle.color = this.colorList[i];
+            newData.itemStyle.color = this.colorList[32 + i];
             data.push(newData);
         }
         return data;
@@ -190,11 +192,8 @@ class PlanCombinationChart {
     }
 }
 
-PlanCombinationChart.colorList = [
-    "#D98880", "#F1948A", "#C39BD3", "#A569BD", "#7FB3D5", "#85C1E9", "#76D7C4",
-    "#73C6B6", "#A9DFBF", "#2ECC71", "#F7DC6F", "#F8C471", "#F0B27A", "#BFC9CA",
-    "#B2BABB", "#85929E"
-];
+PlanCombinationChart.colorList = 
+['#da0d68', '#975e6d', '#fde404', '#0aa3b5', '#9db2b7', '#e0719c', '#f99e1c', '#4eb849', '#ef5a78', '#f7f1bd', '#dd4c51', '#3e0317', '#6569b0', '#c94a44', '#f2684b', '#aeb92c', '#f68a5c', '#baa635', '#f7a128', '#e2631e', '#7eb138', '#e1c315', '#9ea718', '#94a76f', '#d0b24f', '#b09733', '#8f1c53', '#b34039', '#ba9232', '#8b6439', '#187a2f', '#62aa3c', '#038549', '#28b44b', '#7ac141', '#5e9a80', '#8b8c90', '#beb276', '#744e03', '#a3a36f', '#c9b583', '#978847', '#9d977f', '#cc7b6a', '#db646a', '#76c0cb', '#80a89d', '#def2fd', '#7a9bae', '#039fb8', '#5e777b', '#caa465', '#dfbd7e', '#be8663', '#899893', '#a1743b', '#894810', '#c78936', '#8c292c', '#e5762e', '#c78869', '#d4ad12', '#692a19']
 
 function PC_renderItem_Logistics(params, api) {
     let style = api.style();

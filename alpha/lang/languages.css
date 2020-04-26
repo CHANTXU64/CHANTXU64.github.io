@@ -12,15 +12,15 @@ body.zh-Hans .FineTuning-button {
 }
 
 /*zh-Hant ************************/
-body.zh-Hans .reAndco-label {
+body.zh-Hant .reAndco-label {
     width: 60px;
 }
 
-body.zh-Hans .FineTuning-span {
+body.zh-Hant .FineTuning-span {
     width: 40%;
 }
 
-body.zh-Hans .FineTuning-button {
+body.zh-Hant .FineTuning-button {
     width: 30%;
 }
 

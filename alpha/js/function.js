@@ -31,18 +31,16 @@ function stringSliceFromLast_(str, end) {
 }
 
 /**
- * 适用于非负数
- *
- * 当数大于100, 返回不保留小数.
- * 当数大于10, 返回保留一位小数.
- * 当数小于10, 返回两位小数.
+ * 当数(绝对值)大于100, 返回不保留小数.
+ * 当数(绝对值)大于10, 返回保留一位小数.
+ * 当数(绝对值)小于10, 返回两位小数.
  * @param {number} number
  */
 function NumberAutoExact(number) {
     let newNumber;
-    if (number > 100)
+    if (number > 100 || number < -100)
         newNumber = Math.round(number);
-    else if (number > 10)
+    else if (number > 10 || number < -10)
         newNumber = Math.round(number * 10) / 10;
     else
         newNumber = Math.round(number * 100) / 100;

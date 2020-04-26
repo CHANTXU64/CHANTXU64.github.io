@@ -89,6 +89,7 @@ $("#Consumption_add").on("click", function () {
 });
 
 $("#Consumption_reset").on("click", function () {
+    $("#Consumption_select").val(0);
     Input_setPC_Consumption_reAndco();
     Input_setPC_Consumption_times();
     // PC_ConsumptionPlan.
@@ -145,4 +146,9 @@ $("#PC_saveAll").on("click", function () {
     Modal.confirm(language.JS.PC_saveAll_confirm, function () {
         PC_saveAll();
     });
+});
+
+$("#Consumption_select").on("change", function () {
+    let value = consumption_preset[this.selectedIndex - 1];
+    Input_setPC_Consumption_reAndco(value);
 });
