@@ -1,0 +1,71 @@
+<html>
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="ChantXu">
+  <title>花名册</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha256-OUFW7hFO0/r5aEGTQOz9F/aXQOt+TwqI1Z4fbVvww04=" crossorigin="anonymous"></script>
+  <style>
+    input.td-input {
+      border: 0;
+      outline: none;
+      width: -webkit-fill-available;
+    }
+  </style>
+</head>
+
+<body class="container-fluid" id="body">
+    <div class="row">
+        <div class="col-8">
+            <div class="custom-file mt-4 mb-3">
+                <input type="file" accept=".xlsx,.xlsm" class="custom-file-input" id="file" required>
+                <label class="custom-file-label" for="file" id="file_label">Choose file...</label>
+            </div>
+            <div class="mb-3">
+                <button type="button" id="export" class="btn btn-outline-dark">Export</button>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="search_input">搜索</label>
+                </div>
+                <input type="text" class="form-control" id="search_input">
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="table" class="table table-bordered text-nowrap">
+            <thead id="table_thead"></thead>
+            <tbody id="table_tbody"></tbody>
+        </table>
+    </div>
+
+    <!-- 拼音 -->
+    <script src="https://cdn.jsdelivr.net/npm/ipinyinjs@1.0.0/dict/pinyin_dict_firstletter.js" integrity="sha256-bNe2nzUnFitGCfGowcOivJMjptNbKuqLRr55QR7k1Cs=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipinyinjs@1.0.0/dict/pinyin_dict_notone.js" integrity="sha256-HLVit0YMBoAr6PmPeRHkH+69sEQCjFfPZUdpKjGw58U=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipinyinjs@1.0.0/dict/pinyin_dict_withtone.js" integrity="sha256-6CLPIIha59atyzWjy9lMM3Lo3G2/BLFAfyQMjI2n1Dc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipinyinjs@1.0.0/pinyinUtil.js" integrity="sha256-1wcQsm7w1UArO4Lvq4HWg52Vs0sUgt4LN83JvOxO9eU=" crossorigin="anonymous"></script>
+
+    <!-- excel -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.1.1/dist/exceljs.min.js" integrity="sha256-cNQe5u/nhaLcmk3tC0GhSryPQ1CsgldpWsSa8EX/GEs=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js" integrity="sha256-u/J1Urdrk3nCYFefpoeTMgI5viU1ujCDu2fXXoSJjhg=" crossorigin="anonymous"></script>
+
+    <script src="./event.js"></script>
+    <script src="./excel_cell_get_and_set_value.js"></script>
+    <script src="./excel_and_arr.js"></script>
+    <script src="./table_data.js"></script>
+    <script src="./excel2data.js"></script>
+    <script src="./excel_data_2_print_data.js"></script>
+    <script src="./print_table.js"></script>
+    <script src="./import.js"></script>
+</body>
+</html>
