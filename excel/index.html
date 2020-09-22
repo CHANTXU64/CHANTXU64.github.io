@@ -28,8 +28,18 @@
                 <input type="file" accept=".xlsx,.xlsm" class="custom-file-input" id="file" required>
                 <label class="custom-file-label" for="file" id="file_label">Choose file...</label>
             </div>
-            <div class="mb-3">
-                <button type="button" id="export" class="btn btn-outline-dark">Export</button>
+            <div class="form-group row mb-3">
+                <div class="col-auto">
+                    <button type="button" id="export" class="btn btn-outline-dark">Export</button>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">上次输入</div>
+                        </div>
+                        <input type="text" class="form-control" readonly id="last_input">
+                    </div>
+                </div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">

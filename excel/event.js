@@ -23,12 +23,20 @@ $("#file").on("change", function (e) {
     });
 });
 
+let LAST_INPUT;
+
 $("#table").on("input propertychange", "input[id^=table_body_input_]", function () {
     let id = this.id;
     let row = parseInt(id.split("_")[3]);
     let column = parseInt(id.split("_")[4]);
     let value = this.value;
+    LAST_INPUT = value;
+    // document.getElementById("last_input").value = value;
     ExcelData2PrintData.set_body(row, column, value);
+});
+
+$("#table").on("blur", "input[id^=table_body_input_]", function () {
+    document.getElementById("last_input").value = LAST_INPUT;
 });
 
 $("#table").on("focus", "input[id^=table_body_input_]", function () {
@@ -36,6 +44,7 @@ $("#table").on("focus", "input[id^=table_body_input_]", function () {
 });
 
 $("#search_input").on("input propertychange", function () {
+    ExcelData2PrintData.init(Excel2Data.getData());
     PrintTable.print(ExcelData2PrintData.get_data(), this.value);
 });
 
