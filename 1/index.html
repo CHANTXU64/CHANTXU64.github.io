@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <textarea id="text" type="text" autocomplete="off"></textarea>
+    <input id="text" type="text" autocomplete="off">
     <input id="name_list" type="text" autocomplete="off">
     <button onclick="start()">start</button>
     <div id="result"></div>
@@ -50,7 +50,7 @@
                     name_list[i] = "";
                 }
             }
-            document.getElementById("result").innerHTML = text;
+            document.getElementById("result").innerHTML = text.replace(/\n/g,"<br>");
 
             var tab = "";
             for (var i = 0; i < name_list.length; i++) {
